@@ -1,0 +1,101 @@
+Motion planning: OpenRave
+----------
+Allgemeines zu ROS:
+https://www.generationrobots.com/blog/de/ros-robot-operating-system/
+
+openpose node file:
+https://github.com/stevenjj/openpose_ros/blob/master/skeleton_extract_3d/src/skeleton_extract_3d_visualization_node.cpp
+
+ROS Version:
+melodic
+
+Nachrichten auslesen im Worspace:
+rostopic echo vicon/test1/test1
+
+gedit als editor
+netbeans mit c++?
+
+Für jedes Konsolenfenster mit meinem Workspace:
+source devel/setup.bash
+am Anfang ausführen
+->künfitg vielleicht: https://answers.ros.org/question/205976/sourcing-from-multiple-workspaces/
+
+Projekt bauen, von src initialisieren nach devel und build gelöscht:
+catkin_make (clean)
+
+(nur Kern) ROS starten (neues Konsolenfenster):
+roscore
+
+(Kern enthalten) Nodes lokal starten: ->sonst schließt sich die erste Verbindung nach Start der zweiten automatisch
+roslaunch vicon_bridge vicon.launch
+
+Laufende Nodes anschauen:
+rosnode list
+
+Node Verbindungen anschauen:
+rosrun rqt_graph rqt_graph
+
+neues Kommando installieren:
+sudo apt-get install ros-<distro="melodic">-<Kommando>
+//sudo apt-get install python-catkin-tools ->gibt catkin clean
+//sudo apt-get install python-wstool ->gibt wstool, um multiple workspaces zu verwalten
+
+Mehrere gleiche Node-Typen aufmachen:
+name ändern in vicon-launch
+
+Ros Messages anschauen:
+rosmsg show [message type]
+
+Rviz (3D-Visualisierungssystem) zum anschauen
+
+ROS Pfad: /opt/ros/melodic
+
+Repo bereinigen:
+//catkin clean -> tut nicht
+----------
+Tun:
+
+Vicon ROS ergänzen um Code aus openpose (kopieren)
+visualization node aus openpose
+vicon message als input, openpose message als ouput
+Fixe Konfiguration für openpose, variablen Input aus vicon_bridge
+
+Links:
+http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv
+http://wiki.ros.org/msg
+-->http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29
+http://wiki.ros.org/ROS/Tutorials/Recording%20and%20playing%20back%20data
+http://wiki.ros.org/ROS/Tutorials
+http://wiki.ros.org/ROS/Tutorials/Creating%20a%20Package%20by%20Hand
+----------
+Uhrzeit eingestellt
+Dokumentation gesichtet
+Tutorial angefangen
+    ---> aktueller Stand: http://wiki.ros.org/ROS/Tutorials/UsingRqtconsoleRoslaunch
+    //Problem: 2 seperate workspaces
+        Lösung: source devel/setup.bash am Anfang ausführen (macht meinen temporär zum 1.)
+    //Problem: roslaunch vicon_bridge vicon.launch -->Fehler wegen zwei Repos?
+        Lösung: http://wiki.ros.org/catkin/Tutorials/workspace_overlaying
+Tutorial weiter
+src analysieren
+git aktivieren
+
+
+Input:
+https://github.com/stevenjj/openpose_ros#3d-detection-module
+
+
+
+
+
+Bei vicon_bridge: wo den openpose Code einfügen?   
+    Was hat es mit TfDistortInfo.msg und tf_distort.h auf sich?
+    wohl relevant: Marker.msg, vicon_bridge.cpp
+
+
+Fragen: Lieber einen neuen ROS node schreiben, der die messages konvertiert? Das wäre viel sauberer, als in dem Code der vicon_bridge herum zu wursteln. Oder zu viel Overhead?
+Fragen, wie man die Hardware startet. Starten hat nur . ausgegeben
+//Möglichkeit, Daten aufzuzeichnen und dann abzuspielen, um nicht von der Hardware abhängig zu sein?
+Git(Hub)?
+Fragen, ob Stundenzettel gefunden
+
