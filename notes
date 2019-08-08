@@ -60,10 +60,9 @@ Netzwerk Knfig:
 ----------
 Bauen:
 
-Für jedes Konsolenfenster mit meinem Workspace:
 source devel/setup.bash
 am Anfang ausführen
-->künfitg vielleicht: https://answers.ros.org/question/205976/sourcing-from-multiple-workspaces/
+->künftig vielleicht: https://answers.ros.org/question/205976/sourcing-from-multiple-workspaces/
 
 Projekt bauen, von src initialisieren nach devel und build gelöscht:
 catkin_make (clean)
@@ -72,13 +71,13 @@ catkin_make (clean)
 ----------
 Laufen lassen:
 
-Für jedes Konsolenfenster mit meinem Workspace:
 source devel/setup.bash
 am Anfang ausführen
-->künfitg vielleicht: https://answers.ros.org/question/205976/sourcing-from-multiple-workspaces/
+->künftig vielleicht: https://answers.ros.org/question/205976/sourcing-from-multiple-workspaces/
 
 (Kern enthalten) Nodes lokal starten: ->sonst schließt sich die erste Verbindung nach Start der zweiten automatisch
-roslaunch vicon_bridge vicon.launch
+//roslaunch vicon_bridge vicon.launch
+roslaunch vicon_bridge vicon_rviz.launch
 
 Nachrichten auslesen im Worspace:
 Neues Konsolenfenster:
@@ -100,7 +99,8 @@ git aktivieren
 Unklarheiten klären
 Integration beginnen
     Neuen Node erstellen
-    (11:50-) IDE
+    VS code
+    .launch laufen bekommen
 ----------
 Tun:
 

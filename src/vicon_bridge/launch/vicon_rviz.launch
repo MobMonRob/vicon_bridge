@@ -1,5 +1,5 @@
 <launch>
-	<node pkg="vicon_bridge" type="vicon_rviz" name="vicon_rviz" output="screen">
+	<node pkg="vicon_bridge" type="ViconRvizNode" name="ViconRvizNode" output="screen">
 		<param name="stream_mode" value="ClientPull" type="str" />
 		<param name="datastream_hostport" value="192.168.10.1:801" type="str"/>
 		<!--param name="datastream_hostport" value="vicon:801" type="str" /-->
