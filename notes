@@ -39,6 +39,11 @@ Repo bereinigen:
 Daten aufzeichnen und abspielen:
 http://wiki.ros.org/ROS/Tutorials/Recording%20and%20playing%20back%20data
 
+IDE: http://wiki.ros.org/IDEs
+https://code.visualstudio.com/docs/setup/linux
+https://marketplace.visualstudio.com/items?itemName=ms-iot.vscode-ros
+code
+
 
 ----------
 Hardware anschalten:
@@ -54,6 +59,11 @@ Netzwerk Knfig:
     255.255.255.0
 ----------
 Bauen:
+
+Für jedes Konsolenfenster mit meinem Workspace:
+source devel/setup.bash
+am Anfang ausführen
+->künfitg vielleicht: https://answers.ros.org/question/205976/sourcing-from-multiple-workspaces/
 
 Projekt bauen, von src initialisieren nach devel und build gelöscht:
 catkin_make (clean)
@@ -90,6 +100,7 @@ git aktivieren
 Unklarheiten klären
 Integration beginnen
     Neuen Node erstellen
+    (11:50-) IDE
 ----------
 Tun:
 
@@ -113,8 +124,8 @@ http://docs.ros.org/latest/api/catkin/html/howto/format2/building_msgs.html
 http://wiki.ros.org/vicon_bridge
 ----------
 
-Entwicklungsumgebung?!
 
+Zum Testen: eigenes launchfile
 
 Input:
 https://github.com/stevenjj/openpose_ros#3d-detection-module

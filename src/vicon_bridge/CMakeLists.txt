@@ -82,3 +82,12 @@ target_link_libraries(testclient
     ${VICON_SDK_LIBRARY}
     ${Boost_LIBRARIES}
 )
+
+add_executable(ViconRvizNode src/ViconRvizNodeMain.cpp)
+target_link_libraries(ViconRvizNode
+    msvc_bridge
+    ${VICON_SDK_LIBRARY}
+    ${catkin_LIBRARIES}
+)
+add_dependencies(ViconRvizNode ${PROJECT_NAME}_gencpp)
+
