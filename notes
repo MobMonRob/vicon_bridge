@@ -101,6 +101,9 @@ Integration beginnen
     Neuen Node erstellen
     VS code
     .launch laufen bekommen
+Rviz Daten Dummys bauen mit Code aus openpose
+    -> https://github.com/stevenjj/openpose_ros/blob/master/skeleton_extract_3d/src/skeleton_extract_3d_visualization_node.cpp
+    -> http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 ----------
 Tun:
 
@@ -108,7 +111,6 @@ Vicon ROS ergänzen um Code aus openpose (kopieren) -> https://github.com/steven
 vicon_bridge soll rviz kompatible messages ausgeben -> fixe Konfiguration für Message Felder, die vicon nicht liefert
 neuer node in vicon_bridge erstellen
     -> code umzustrukturieren
-
 
 
 Links:
@@ -124,9 +126,6 @@ http://docs.ros.org/latest/api/catkin/html/howto/format2/building_msgs.html
 http://wiki.ros.org/vicon_bridge
 ----------
 
-
-Zum Testen: eigenes launchfile
-
 Input:
 https://github.com/stevenjj/openpose_ros#3d-detection-module
 *Here you should change /usb_cam_3d/image_raw/ for the topic your camera will be publishing the sensor_msgs::Image messages (RGB images). You should also change /kinect2/qhd/points for the topic your camera will be publishing the sensor_msgs::Pointcloud2 messages (depth images).
@@ -137,5 +136,5 @@ Bei vicon_bridge: wo den openpose Code einfügen?
 ->neues ROS-Node erzeugen in Projekt
     ->schauen, wo sie erzeugt werden
 
-vicon APi Dokumentation
+vicon API Dokumentation
 

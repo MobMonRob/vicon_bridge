@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     ss << "hello world " << count;
     msg.data = ss.str();
 
-    ROS_INFO("%s", msg.data.c_str());
+    //ROS_INFO("%s", msg.data.c_str()); // Gibt Text in der Konsole aus.
 
     /**
      * The publish() function is how you send messages. The parameter
