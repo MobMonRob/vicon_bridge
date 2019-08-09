@@ -39,6 +39,10 @@ Repo bereinigen:
 Daten aufzeichnen und abspielen:
 http://wiki.ros.org/ROS/Tutorials/Recording%20and%20playing%20back%20data
 
+Cmake:
+//https://crascit.com/2016/01/31/enhanced-source-file-handling-with-target_sources/
+https://rix0r.nl/blog/2015/08/13/cmake-guide/
+
 IDE: http://wiki.ros.org/IDEs
 https://code.visualstudio.com/docs/setup/linux
 https://marketplace.visualstudio.com/items?itemName=ms-iot.vscode-ros
@@ -57,6 +61,8 @@ reinstecken
 Netzwerk Knfig:
     192.168.10.1
     255.255.255.0
+
+
 ----------
 Bauen:
 
@@ -82,6 +88,8 @@ roslaunch vicon_bridge vicon_rviz.launch
 Nachrichten auslesen im Worspace:
 Neues Konsolenfenster:
 rostopic echo vicon/test1/test1
+
+
 ----------
 Getan:
 
@@ -104,6 +112,8 @@ Integration beginnen
 Rviz Daten Dummys bauen mit Code aus openpose
     -> https://github.com/stevenjj/openpose_ros/blob/master/skeleton_extract_3d/src/skeleton_extract_3d_visualization_node.cpp
     -> http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
+    Teile (wie Header) raus trennen
+
 ----------
 Tun:
 
@@ -124,17 +134,10 @@ http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Points%20and%20Lines
 http://wiki.ros.org/rviz/DisplayTypes/Marker
 http://docs.ros.org/latest/api/catkin/html/howto/format2/building_msgs.html
 http://wiki.ros.org/vicon_bridge
+
+
 ----------
 
-Input:
-https://github.com/stevenjj/openpose_ros#3d-detection-module
-*Here you should change /usb_cam_3d/image_raw/ for the topic your camera will be publishing the sensor_msgs::Image messages (RGB images). You should also change /kinect2/qhd/points for the topic your camera will be publishing the sensor_msgs::Pointcloud2 messages (depth images).
-
-
-Bei vicon_bridge: wo den openpose Code einfügen?
-    wohl relevant: Marker.msg, Markers.msg, vicon_bridge.cpp
-->neues ROS-Node erzeugen in Projekt
-    ->schauen, wo sie erzeugt werden
 
 vicon API Dokumentation
 

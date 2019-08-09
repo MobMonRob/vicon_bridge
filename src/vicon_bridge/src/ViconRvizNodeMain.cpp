@@ -1,6 +1,8 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
+#include "MarkerBuilder.h"
+
 #include <sstream>
 
 /**
@@ -19,6 +21,13 @@ int main(int argc, char **argv)
    * part of the ROS system.
    */
   ros::init(argc, argv, "ViconRvizNode");
+
+
+	MarkerBuilder mb;
+
+
+
+
 
   /**
    * NodeHandle is the main access point to communications with the ROS system.

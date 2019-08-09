@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.10)
 project(vicon_bridge)
 
 find_package(catkin REQUIRED COMPONENTS
@@ -83,9 +83,11 @@ target_link_libraries(testclient
     ${Boost_LIBRARIES}
 )
 
-add_executable(ViconRvizNode src/ViconRvizNodeMain.cpp)
+add_executable(ViconRvizNode
+	src/ViconRvizNodeMain.cpp
+	src/MarkerBuilder.cpp
+)
 target_link_libraries(ViconRvizNode
-    msvc_bridge
     ${VICON_SDK_LIBRARY}
     ${catkin_LIBRARIES}
 )
