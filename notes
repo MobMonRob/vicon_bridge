@@ -87,8 +87,8 @@ roslaunch vicon_bridge vicon_rviz.launch
 
 Nachrichten auslesen im Worspace:
 Neues Konsolenfenster:
-rostopic echo vicon/test1/test1
-
+//rostopic echo vicon/test1/test1
+rostopic echo marker
 
 ----------
 Getan:
@@ -113,7 +113,10 @@ Rviz Daten Dummys bauen mit Code aus openpose
     -> https://github.com/stevenjj/openpose_ros/blob/master/skeleton_extract_3d/src/skeleton_extract_3d_visualization_node.cpp
     -> http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
     Teile (wie Header) raus trennen
-
+    Mischung aus: Wird wo anders konfiguriert (template), sind Standardwerte da (Methodenaufruf), Parameterübergabe
+    Template erstellen für semantisch sinnvolle Marker
+    MarkerBuilder ist konfigurierbar und speichert Konfigurationen
+    
 ----------
 Tun:
 

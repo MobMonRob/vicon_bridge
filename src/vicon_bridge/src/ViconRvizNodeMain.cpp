@@ -22,19 +22,12 @@ int main(int argc, char **argv)
    */
   ros::init(argc, argv, "ViconRvizNode");
 
-
-	MarkerBuilder mb;
-
-
-
-
-
   /**
    * NodeHandle is the main access point to communications with the ROS system.
    * The first NodeHandle constructed will fully initialize this node, and the last
    * NodeHandle destructed will close down the node.
    */
-  ros::NodeHandle n;
+  ros::NodeHandle nodeHandle;
 
   /**
    * The advertise() function is how you tell ROS that you want to
@@ -53,7 +46,8 @@ int main(int argc, char **argv)
    * than we can send them, the number here specifies how many messages to
    * buffer up before throwing some away.
    */
-  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+  //ros::Publisher chatter_pub = nodeHandle.advertise<std_msgs::String>("chatter", 1000);
+  ros::Publisher markerPublisher = nodeHandle.advertise<visualization_msgs::Marker>("marker", 1000);
 
   ros::Rate loop_rate(10);
 
@@ -81,7 +75,9 @@ int main(int argc, char **argv)
      * given as a template parameter to the advertise<>() call, as was done
      * in the constructor above.
      */
-    chatter_pub.publish(msg);
+    //chatter_pub.publish(msg);
+	MarkerBuilder markerBuilder;
+	markerPublisher.publish(markerBuilder.getTestMarker());
 
     ros::spinOnce();
 
