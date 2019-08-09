@@ -58,7 +58,7 @@ Hardware anschalten:
 4. vicon tracker neuestes ausführen
 Wenn weißes Kabel nicht drin:
 reinstecken
-Netzwerk Knfig:
+Netzwerk Konfig:
     192.168.10.1
     255.255.255.0
 
@@ -109,14 +109,11 @@ Integration beginnen
     Neuen Node erstellen
     VS code
     .launch laufen bekommen
-Rviz Daten Dummys bauen mit Code aus openpose
-    -> https://github.com/stevenjj/openpose_ros/blob/master/skeleton_extract_3d/src/skeleton_extract_3d_visualization_node.cpp
-    -> http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
-    Teile (wie Header) raus trennen
-    Mischung aus: Wird wo anders konfiguriert (template), sind Standardwerte da (Methodenaufruf), Parameterübergabe
-    Template erstellen für semantisch sinnvolle Marker
-    MarkerBuilder ist konfigurierbar und speichert Konfigurationen
-    
+Rviz Daten Dummys bauen mit Code aus openpose -> MarkerBuilder::getTestMarker()
+Daten aus vicon_bridge holen
+    Header Datei extrahieren
+    ->was wird da mit Markers gemacht??
+
 ----------
 Tun:
 
@@ -140,7 +137,23 @@ http://wiki.ros.org/vicon_bridge
 
 
 ----------
+Klassenstruktur:
 
+Main: hat einen NodeStarter, dem der ViconRvizNode übergeben wird
+NodeStarter: enthält Boiler Plate, um Nodes auszuführen, polymorph
+ViconRvizNode: enthält Code, der für den Node spezifisch ist -> was wird gepublished, ...
+
+MarkerBuilder:
+    enhält und speichert Konfiguration(en), um Marker zu bauen und baut sie
+    ist konfigurierbar
+    Mischung aus: Wird wo anders konfiguriert (template), sind Standardwerte da (Methodenaufruf), Parameterübergabe
+    Templates erstellen für semantisch sinnvolle Marker
+    https://github.com/stevenjj/openpose_ros/blob/master/skeleton_extract_3d/src/skeleton_extract_3d_visualization_node.cpp
+    http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
+
+vicon_bridge: holt Daten von vicon
+Builder Bridge Kleber: holt die Daten von der Bridge und gibt sie dem Builder
+----------
 
 vicon API Dokumentation
 
