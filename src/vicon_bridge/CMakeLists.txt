@@ -56,7 +56,10 @@ include_directories(src ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${VICON_SDK
 
 add_library(msvc_bridge src/msvc_bridge.cpp)
 
-add_executable(vicon_bridge src/vicon_bridge.cpp)
+add_executable(vicon_bridge
+	#src/vicon_bridgeNodeMain.cpp
+	src/vicon_bridge.cpp
+)
 target_link_libraries(vicon_bridge
     msvc_bridge
     ${VICON_SDK_LIBRARY}

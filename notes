@@ -108,11 +108,32 @@ Unklarheiten klären
 Integration beginnen
     Neuen Node erstellen
     VS code
-    .launch laufen bekommen
+    .launch zum Laufen bekommen
 Rviz Daten Dummys bauen mit Code aus openpose -> MarkerBuilder::getTestMarker()
+
+
+----------
+Aktuell:
+
+---vicon_bridge zu mehreren Dateien refaktorieren
+    ->testen gegen: roslaunch vicon_bridge vicon.launch
+
+//Header erstellen
+
+
+
+
+main auslagern
+    CMakeLists.txt ändern
+    .launch ändern
+    
+    Adapt auslagern
+---
+
+
 Daten aus vicon_bridge holen
-    Header Datei extrahieren
     ->was wird da mit Markers gemacht??
+
 
 ----------
 Tun:
@@ -156,4 +177,11 @@ Builder Bridge Kleber: holt die Daten von der Bridge und gibt sie dem Builder
 ----------
 
 vicon API Dokumentation
+
+Achtung: In Header Dateien kann man Abhängigkeiten einfach deklarieren, statt sie als Header einzufügen
+
+Cmake: https://learnxinyminutes.com/docs/cmake/
+
+
+Wenn Zeit habe: Silvan nochmal fragen: Er meinte, ich solle für Oliver was bauen, das sie Samplerate des vicon Systems ausliest und damit was macht.
 
