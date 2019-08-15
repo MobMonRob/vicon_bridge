@@ -110,29 +110,20 @@ Integration beginnen
     VS code
     .launch zum Laufen bekommen
 Rviz Daten Dummys bauen mit Code aus openpose -> MarkerBuilder::getTestMarker()
-
+vicon_bridge zu mehreren Dateien refaktorieren
+    ->testen gegen: roslaunch vicon_bridge vicon.launch
+---
+//Header erstellen
+//main auslagern
+---
 
 ----------
 Aktuell:
 
----vicon_bridge zu mehreren Dateien refaktorieren
-    ->testen gegen: roslaunch vicon_bridge vicon.launch
-
-//Header erstellen
-main auslagern
-
-
-
-main auslagern
-    CMakeLists.txt ändern
-    .launch ändern
-    
-    Adapt auslagern
----
-
 
 Daten aus vicon_bridge holen
     ->was wird da mit Markers gemacht??
+dazu wohl: ros Zeug aus vicon_receiver raus holen
 
 
 ----------
