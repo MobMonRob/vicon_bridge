@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "vicon");
+	ros::init(argc, argv, "vicon_bridgeNode");
 	//  ViconReceiver vr;
 	//  ros::spin();
 
