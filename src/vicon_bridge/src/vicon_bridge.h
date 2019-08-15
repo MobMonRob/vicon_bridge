@@ -11,6 +11,9 @@
 #include <map>
 #include <vicon_bridge/viconCalibrateSegment.h>
 
+#include "MarkersProcessor.h"
+#include <optional>
+
 using std::string;
 
 class SegmentPublisher
@@ -29,12 +32,14 @@ typedef std::map<string, SegmentPublisher> SegmentMap;
 class ViconReceiver
 {
 public:
-	ViconReceiver();
+	ViconReceiver(std::optional<MarkersProcessor> markersProcessor = std::nullopt);
 	~ViconReceiver();
 	void startGrabbing();
 	void stopGrabbing();
 
 private:
+	std::optional<MarkersProcessor> markersProcessor;
+
 	ros::NodeHandle nh;
 	ros::NodeHandle nh_priv;
 	// Diagnostic Updater
@@ -86,7 +91,7 @@ private:
 	bool shutdown_vicon();
 	bool process_frame();
 	void process_subjects(const ros::Time &frame_time);
-	void process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num);
+	vicon_bridge::Markers process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num);
 	bool grabPoseCallback(vicon_bridge::viconGrabPose::Request &req, vicon_bridge::viconGrabPose::Response &resp);
 	bool calibrateSegmentCallback(vicon_bridge::viconCalibrateSegment::Request &req, vicon_bridge::viconCalibrateSegment::Response &resp);
 };

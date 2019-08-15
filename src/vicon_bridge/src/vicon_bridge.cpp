@@ -131,11 +131,11 @@ string Adapt(const Result::Enum i_result)
 	}
 }
 
-ViconReceiver::ViconReceiver() : nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
-								 freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
-								 host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
-								 lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
-								 marker_data_enabled(false), unlabeled_marker_data_enabled(false), grab_frames_(false)
+ViconReceiver::ViconReceiver(std::optional<MarkersProcessor> markersProcessor) : markersProcessor(markersProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
+																				 freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
+																				 host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
+																				 lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
+																				 marker_data_enabled(false), unlabeled_marker_data_enabled(false), grab_frames_(false)
 
 {
 	// Diagnostics
@@ -385,7 +385,16 @@ bool ViconReceiver::process_frame()
 
 		if (publish_markers_)
 		{
-			process_markers(now_time - vicon_latency, lastFrameNumber);
+			vicon_bridge::Markers markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
+
+			if (markersProcessor.has_value())
+			{
+				markersProcessor->pushMarkers(markers_msg);
+			}
+			else
+			{
+				marker_pub_.publish(markers_msg);
+			}
 		}
 
 		lastTime = now_time;
@@ -480,7 +489,7 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 	cnt++;
 }
 
-void ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
+vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
 {
 	if (marker_pub_.getNumSubscribers() > 0)
 	{
@@ -555,7 +564,7 @@ void ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vi
 						 Adapt(_Output_GetUnlabeledMarkerGlobalTranslation.Result).c_str());
 			}
 		}
-		marker_pub_.publish(markers_msg);
+		return markers_msg;
 	}
 }
 

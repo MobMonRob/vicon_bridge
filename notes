@@ -116,14 +116,19 @@ vicon_bridge zu mehreren Dateien refaktorieren
 //Header erstellen
 //main auslagern
 ---
+Daten aus vicon_bridge holen
+    Code verstehen
+    Überlegen, wo angreifen
+    X Sämtlichen ROS spezifischen Code raus holen
+        ->zu aufwändig. Erst mal nur was einfügen, dass ich die Marker abgreifen kann bei der Erstellung
+    ->MarkersProcessor
 
 ----------
 Aktuell:
 
 
-Daten aus vicon_bridge holen
-    ->was wird da mit Markers gemacht??
-dazu wohl: ros Zeug aus vicon_receiver raus holen
+gti commit
+Alle Dateien in src verschieben
 
 
 ----------
@@ -146,6 +151,14 @@ http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Points%20and%20Lines
 http://wiki.ros.org/rviz/DisplayTypes/Marker
 http://docs.ros.org/latest/api/catkin/html/howto/format2/building_msgs.html
 http://wiki.ros.org/vicon_bridge
+
+
+----------
+Künftig:
+
+Zunächst alles, was in ros mehr macht als nur Loggging, raus nehmen
+Alles ros Spezifische aus vicon_bridge raus nehmen
+vicon_bridge.cpp in vicon_receiver.cpp umbenennen
 
 
 ----------

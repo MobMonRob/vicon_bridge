@@ -10,5 +10,6 @@ int main(int argc, char **argv)
 	aspin.start();
 	ViconReceiver vr;
 	aspin.stop();
+
 	return 0;
 }

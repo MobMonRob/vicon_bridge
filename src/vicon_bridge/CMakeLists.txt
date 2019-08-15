@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(vicon_bridge)
+set (CMAKE_CXX_STANDARD 17)
 
 find_package(catkin REQUIRED COMPONENTS
     message_generation
@@ -56,17 +57,6 @@ include_directories(src ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${VICON_SDK
 
 add_library(msvc_bridge src/msvc_bridge.cpp)
 
-add_executable(vicon_bridgeNode
-	src/vicon_bridgeNodeMain.cpp
-	src/vicon_bridge.cpp
-)
-target_link_libraries(vicon_bridgeNode
-    msvc_bridge
-    ${VICON_SDK_LIBRARY}
-    ${catkin_LIBRARIES}
-)
-add_dependencies(vicon_bridgeNode ${PROJECT_NAME}_gencpp)
-
 add_executable(calibrate src/calibrate_segment.cpp)
 target_link_libraries(calibrate
    ${catkin_LIBRARIES}
@@ -86,11 +76,26 @@ target_link_libraries(testclient
     ${Boost_LIBRARIES}
 )
 
+add_executable(vicon_bridgeNode
+	src/vicon_bridgeNodeMain.cpp
+	src/vicon_bridge.cpp
+	src/MarkersProcessor.cpp
+)
+target_link_libraries(vicon_bridgeNode
+    msvc_bridge
+    ${VICON_SDK_LIBRARY}
+    ${catkin_LIBRARIES}
+)
+add_dependencies(vicon_bridgeNode ${PROJECT_NAME}_gencpp)
+
 add_executable(ViconRvizNode
 	src/ViconRvizNodeMain.cpp
 	src/MarkerBuilder.cpp
+	src/vicon_bridge.cpp
+	src/MarkersProcessor.cpp
 )
 target_link_libraries(ViconRvizNode
+	msvc_bridge
     ${VICON_SDK_LIBRARY}
     ${catkin_LIBRARIES}
 )
