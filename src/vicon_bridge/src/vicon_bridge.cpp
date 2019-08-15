@@ -131,20 +131,6 @@ string Adapt(const Result::Enum i_result)
 	}
 }
 
-void ViconReceiver::startGrabbing()
-{
-	grab_frames_ = true;
-	// test grabbing in the main loop and run an asynchronous spinner instead
-	grabThread();
-	//grab_frames_thread_ = boost::thread(&ViconReceiver::grabThread, this);
-}
-
-void ViconReceiver::stopGrabbing()
-{
-	grab_frames_ = false;
-	//grab_frames_thread_.join();
-}
-
 ViconReceiver::ViconReceiver() : nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
 								 freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
 								 host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
@@ -196,6 +182,20 @@ ViconReceiver::~ViconReceiver()
 	{
 		ROS_ERROR("Error while shutting down Vicon.");
 	}
+}
+
+void ViconReceiver::startGrabbing()
+{
+	grab_frames_ = true;
+	// test grabbing in the main loop and run an asynchronous spinner instead
+	grabThread();
+	//grab_frames_thread_ = boost::thread(&ViconReceiver::grabThread, this);
+}
+
+void ViconReceiver::stopGrabbing()
+{
+	grab_frames_ = false;
+	//grab_frames_thread_.join();
 }
 
 void ViconReceiver::diagnostics(diagnostic_updater::DiagnosticStatusWrapper &stat)
