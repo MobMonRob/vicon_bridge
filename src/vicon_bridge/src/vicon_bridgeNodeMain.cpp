@@ -1,17 +1,14 @@
-/*
-#include "vicon_bridge.cpp"
+#include "vicon_bridge.h"
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "vicon");
-//  ViconReceiver vr;
-//  ros::spin();
+	ros::init(argc, argv, "vicon");
+	//  ViconReceiver vr;
+	//  ros::spin();
 
-  ros::AsyncSpinner aspin(1);
-  aspin.start();
-  ViconReceiver vr;
-  aspin.stop();
-  return 0;
+	ros::AsyncSpinner aspin(1);
+	aspin.start();
+	ViconReceiver vr;
+	aspin.stop();
+	return 0;
 }
-*/
-

@@ -119,7 +119,7 @@ Aktuell:
     ->testen gegen: roslaunch vicon_bridge vicon.launch
 
 //Header erstellen
-
+main auslagern
 
 
 
@@ -181,6 +181,11 @@ vicon API Dokumentation
 Achtung: In Header Dateien kann man Abhängigkeiten einfach deklarieren, statt sie als Header einzufügen
 
 Cmake: https://learnxinyminutes.com/docs/cmake/
+
+
+
+
+
 
 
 Wenn Zeit habe: Silvan nochmal fragen: Er meinte, ich solle für Oliver was bauen, das sie Samplerate des vicon Systems ausliest und damit was macht.

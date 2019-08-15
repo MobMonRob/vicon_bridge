@@ -56,16 +56,16 @@ include_directories(src ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${VICON_SDK
 
 add_library(msvc_bridge src/msvc_bridge.cpp)
 
-add_executable(vicon_bridge
-	#src/vicon_bridgeNodeMain.cpp
+add_executable(vicon_bridgeNode
+	src/vicon_bridgeNodeMain.cpp
 	src/vicon_bridge.cpp
 )
-target_link_libraries(vicon_bridge
+target_link_libraries(vicon_bridgeNode
     msvc_bridge
     ${VICON_SDK_LIBRARY}
     ${catkin_LIBRARIES}
 )
-add_dependencies(vicon_bridge ${PROJECT_NAME}_gencpp)
+add_dependencies(vicon_bridgeNode ${PROJECT_NAME}_gencpp)
 
 add_executable(calibrate src/calibrate_segment.cpp)
 target_link_libraries(calibrate
