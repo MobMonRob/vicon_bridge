@@ -33,9 +33,6 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-#ifndef SPAGHETTICODE
-#define SPAGHETTICODE
-
 #include "vicon_bridge.h"
 
 #include <Client.h>
@@ -686,5 +683,3 @@ bool ViconReceiver::calibrateSegmentCallback(vicon_bridge::viconCalibrateSegment
 
 	return true;
 }
-
-#endif
