@@ -1,6 +1,7 @@
 #ifndef RVIZ_MARKERBUILDER_H
 #define RVIZ_MARKERBUILDER_H
 
+#include <vicon_bridge/Markers.h>
 #include "visualization_msgs/Marker.h"
 //#include "geometry_msgs/Pose.h"
 //#include "geometry_msgs/Vector3.h"
@@ -37,6 +38,7 @@ class RvizMarkerBuilder {
 	//Geht nicht wegen ros::Time::now() darf nicht aufgerufen werden, bevor das System initialisiert wurde
 	//static const visualization_msgs::Marker testMarker;
     
+	visualization_msgs::Marker convertViconToRvizMarker(const vicon_bridge::Markers& markers_msg);
 	visualization_msgs::Marker getTestMarker();
 
     private:

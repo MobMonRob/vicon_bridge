@@ -120,17 +120,13 @@ Daten aus vicon_bridge holen
     ->MarkersProcessor nimmt die Daten
 CMAKE nochmal anschauen verbessern
 markers Sachen umbennen zum spezifizieren, was gemeint ist
+vicon_bridge Unterscheidung, ob normal aufgerufen oder als Lib
 
 ----------
 Aktuell:
 
 
 MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher -> verwaltet die Transition
-
-MarkersProcessor lässt die Daten von einer weiteren Klasse kovertieren und published sie dann
-
-
-
 RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konfiguration
 
 
@@ -185,12 +181,6 @@ Builder Bridge Kleber: holt die Daten von der Bridge und gibt sie dem Builder
 ----------
 
 vicon API Dokumentation
-
-Achtung: In Header Dateien kann man Abhängigkeiten einfach deklarieren, statt sie mit #include einzufügen
-
-
-
-
 
 
 
