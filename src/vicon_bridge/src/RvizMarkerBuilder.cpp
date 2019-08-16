@@ -11,6 +11,10 @@ using namespace std_msgs;
 
 visualization_msgs::Marker RvizMarkerBuilder::convertViconToRvizMarker(const vicon_bridge::Marker &viconMarker) const
 {
+	//viconMarker.
+
+
+
 	visualization_msgs::Marker test;
 	return test;
 }
