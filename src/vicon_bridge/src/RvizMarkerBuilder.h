@@ -3,11 +3,6 @@
 
 #include <vicon_bridge/Marker.h>
 #include "visualization_msgs/Marker.h"
-//#include "geometry_msgs/Pose.h"
-//#include "geometry_msgs/Vector3.h"
-//#include "std_msgs/ColorRGBA.h"
-//#include "std_msgs/Header.h"
-//#include "std_msgs/Time.h"
 
 //http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 enum Type

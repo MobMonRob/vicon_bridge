@@ -2,12 +2,6 @@
 
 #include <cstdint>
 
-#include "visualization_msgs/Marker.h"
-//#include "geometry_msgs/Pose.h"
-//#include "geometry_msgs/Vector3.h"
-//#include "std_msgs/ColorRGBA.h"
-//#include "std_msgs/Header.h"
-//#include "std_msgs/Time.h"
 using namespace visualization_msgs;
 using namespace geometry_msgs;
 using namespace std_msgs;

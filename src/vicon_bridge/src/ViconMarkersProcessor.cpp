@@ -1,9 +1,6 @@
 #include "ViconMarkersProcessor.h"
 
-#include <vicon_bridge/Markers.h>
-#include <ros/ros.h>
 #include "visualization_msgs/MarkerArray.h"
-#include "RvizMarkerBuilder.h"
 
 ViconMarkersProcessor::ViconMarkersProcessor(const ros::Publisher &markerPublisher) : markerPublisher(markerPublisher), rvizMarkerBuilder() {}
 
