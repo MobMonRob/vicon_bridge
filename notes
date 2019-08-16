@@ -119,6 +119,7 @@ Daten aus vicon_bridge holen
         ->zu aufwändig. Erst mal nur was einfügen, dass ich die Marker abgreifen kann bei der Erstellung
     ->MarkersProcessor nimmt die Daten
 CMAKE nochmal anschauen verbessern
+markers Sachen umbennen zum spezifizieren, was gemeint ist
 
 ----------
 Aktuell:
@@ -128,7 +129,7 @@ MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher -> verw
 
 MarkersProcessor lässt die Daten von einer weiteren Klasse kovertieren und published sie dann
 
-markers Sachen umbennen zum spezifizieren, was gemeint ist
+
 
 RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konfiguration
 

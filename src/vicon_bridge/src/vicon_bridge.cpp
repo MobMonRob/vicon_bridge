@@ -163,6 +163,10 @@ ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcess
 	ROS_INFO("setting up segment calibration service server ... ");
 	calibrate_segment_server_ = nh_priv.advertiseService("calibrate_segment", &ViconReceiver::calibrateSegmentCallback,
 														 this);
+	
+	if (markersProcessor.has_value()) {
+		publish_markers_ = false;
+	}
 
 	// Publishers
 	if (publish_markers_)
@@ -383,7 +387,7 @@ bool ViconReceiver::process_frame()
 			process_subjects(now_time - vicon_latency);
 		}
 
-		if (publish_markers_)
+		if (publish_markers_ || markersProcessor.has_value())
 		{
 			vicon_bridge::Markers markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
 
