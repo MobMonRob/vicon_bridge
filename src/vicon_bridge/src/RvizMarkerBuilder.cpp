@@ -1,4 +1,4 @@
-#include "MarkerBuilder.h"
+#include "RvizMarkerBuilder.h"
 
 #include <cstdint>
 
@@ -13,13 +13,13 @@ using namespace geometry_msgs;
 using namespace std_msgs;
 
 //Geht nicht wegen ros::Time::now() darf nicht aufgerufen werden, bevor das System initialisiert wurde
-//const visualization_msgs::Marker MarkerBuilder::testMarker = MarkerBuilder::buildMarker();
+//const visualization_msgs::Marker RvizMarkerBuilder::testMarker = RvizMarkerBuilder::buildMarker();
 
-visualization_msgs::Marker MarkerBuilder::getTestMarker() {
+visualization_msgs::Marker RvizMarkerBuilder::getTestMarker() {
 	return buildMarker();
 }
 
-visualization_msgs::Marker MarkerBuilder::buildMarker() {
+visualization_msgs::Marker RvizMarkerBuilder::buildMarker() {
 	//http://wiki.ros.org/rviz/DisplayTypes/Marker
     Marker marker; //primitve 3D shape
 
@@ -53,7 +53,7 @@ bool mesh_use_embedded_materials
 	return marker;
 }
 
-std_msgs::Header MarkerBuilder::buildHeader() {
+std_msgs::Header RvizMarkerBuilder::buildHeader() {
 	Header header; //Header for time/frame information
 
 	//uint32_t seq = 0;
@@ -65,7 +65,7 @@ std_msgs::Header MarkerBuilder::buildHeader() {
 	return header;
 }
 
-geometry_msgs::Pose MarkerBuilder::buildPose() {
+geometry_msgs::Pose RvizMarkerBuilder::buildPose() {
 	Pose pose;
 	Point position;
 	Quaternion orientation;
@@ -85,7 +85,7 @@ geometry_msgs::Pose MarkerBuilder::buildPose() {
 	return pose;
 }
 
-geometry_msgs::Vector3 MarkerBuilder::buildScale() {
+geometry_msgs::Vector3 RvizMarkerBuilder::buildScale() {
 	Vector3 scale;
 
 	scale.x = 1;
@@ -95,7 +95,7 @@ geometry_msgs::Vector3 MarkerBuilder::buildScale() {
 	return scale;
 }
 
-std_msgs::ColorRGBA MarkerBuilder::buildColor() {
+std_msgs::ColorRGBA RvizMarkerBuilder::buildColor() {
 	ColorRGBA color;
 
 	color.r = 0.0;

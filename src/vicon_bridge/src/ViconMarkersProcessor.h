@@ -1,13 +1,13 @@
-#ifndef MARKERS_PROCESSOR_H
-#define MARKERS_PROCESSOR_H
+#ifndef VICON_MARKERS_PROCESSOR_H
+#define VICON_MARKERS_PROCESSOR_H
 
 #include <vicon_bridge/Markers.h>
 #include <ros/ros.h>
 
-class MarkersProcessor
+class ViconMarkersProcessor
 {	
 	public:
-	MarkersProcessor(const ros::Publisher& markerPublisher);
+	ViconMarkersProcessor(const ros::Publisher& markerPublisher);
 	void pushMarkers(vicon_bridge::Markers markers_msg);
 
 	private:

@@ -79,7 +79,7 @@ target_link_libraries(testclient
 add_executable(vicon_bridgeNode
 	src/vicon_bridgeNodeMain.cpp
 	src/vicon_bridge.cpp
-	src/MarkersProcessor.cpp
+	src/ViconMarkersProcessor.cpp
 )
 target_link_libraries(vicon_bridgeNode
     msvc_bridge
@@ -90,9 +90,9 @@ add_dependencies(vicon_bridgeNode ${PROJECT_NAME}_gencpp)
 
 add_executable(ViconRvizNode
 	src/ViconRvizNodeMain.cpp
-	src/MarkerBuilder.cpp
+	src/ViconMarkersProcessor.cpp
 	src/vicon_bridge.cpp
-	src/MarkersProcessor.cpp
+	src/RvizMarkerBuilder.cpp
 )
 target_link_libraries(ViconRvizNode
 	msvc_bridge

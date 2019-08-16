@@ -1,5 +1,5 @@
-#ifndef MARKERBUILDER_H
-#define MARKERBUILDER_H
+#ifndef RVIZ_MARKERBUILDER_H
+#define RVIZ_MARKERBUILDER_H
 
 #include "visualization_msgs/Marker.h"
 //#include "geometry_msgs/Pose.h"
@@ -32,7 +32,7 @@ enum Action {
 	DELETEAL	= 3
 };
 
-class MarkerBuilder {
+class RvizMarkerBuilder {
     public:
 	//Geht nicht wegen ros::Time::now() darf nicht aufgerufen werden, bevor das System initialisiert wurde
 	//static const visualization_msgs::Marker testMarker;

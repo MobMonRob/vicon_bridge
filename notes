@@ -6,8 +6,7 @@ https://www.generationrobots.com/blog/de/ros-robot-operating-system/
 ROS Version:
 melodic
 
-gedit als editor
-netbeans mit c++?
+vs code als Editor
 
 (nur Kern) ROS starten (neues Konsolenfenster):
 roscore
@@ -32,9 +31,6 @@ rosmsg show [message type]
 Rviz (3D-Visualisierungssystem) zum anschauen
 
 ROS Pfad: /opt/ros/melodic
-
-Repo bereinigen:
-//catkin clean -> tut nicht
 
 Daten aufzeichnen und abspielen:
 http://wiki.ros.org/ROS/Tutorials/Recording%20and%20playing%20back%20data
@@ -121,13 +117,22 @@ Daten aus vicon_bridge holen
     Überlegen, wo angreifen
     X Sämtlichen ROS spezifischen Code raus holen
         ->zu aufwändig. Erst mal nur was einfügen, dass ich die Marker abgreifen kann bei der Erstellung
-    ->MarkersProcessor
+    ->MarkersProcessor nimmt die Daten
+CMAKE nochmal anschauen verbessern
 
 ----------
 Aktuell:
 
 
-CMAKE nochmal anschauen verbessern: https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/
+MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher -> verwaltet die Transition
+
+MarkersProcessor lässt die Daten von einer weiteren Klasse kovertieren und published sie dann
+
+markers Sachen umbennen zum spezifizieren, was gemeint ist
+
+RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konfiguration
+
+
 
 ----------
 Tun:
@@ -156,7 +161,7 @@ Künftig:
 
 Zunächst alles, was in ros mehr macht als nur Loggging, raus nehmen
 Alles ros Spezifische aus vicon_bridge raus nehmen
-vicon_bridge.cpp in vicon_receiver.cpp umbenennen
+vicon_bridge.cpp in vicon_receiver.cpp umbenennen (auch *.h)
 
 
 ----------

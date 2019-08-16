@@ -1,9 +1,9 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
-#include "MarkerBuilder.h"
+#include "RvizMarkerBuilder.h"
 #include "vicon_bridge.h"
-#include "MarkersProcessor.h"
+#include "ViconMarkersProcessor.h"
 
 #include <sstream>
 
@@ -25,7 +25,7 @@ void testVicon(ros::NodeHandle nodeHandle)
 {
 	ros::Publisher markerPublisher = nodeHandle.advertise<vicon_bridge::Marker>("marker", 1000);
 
-	MarkersProcessor markersProcessor(markerPublisher);
+	ViconMarkersProcessor markersProcessor(markerPublisher);
 
 	ros::AsyncSpinner aspin(1);
 	aspin.start();
@@ -50,7 +50,7 @@ void testMarkerBuilder(ros::NodeHandle nodeHandle)
 
 		//ROS_INFO("%s", msg.data.c_str()); // Gibt Text in der Konsole aus.
 
-		MarkerBuilder markerBuilder;
+		RvizMarkerBuilder markerBuilder;
 		markerPublisher.publish(markerBuilder.getTestMarker());
 
 		ros::spinOnce();
