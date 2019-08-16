@@ -76,12 +76,17 @@ target_link_libraries(testclient
     ${Boost_LIBRARIES}
 )
 
+add_library(srcFiles
+	src/ViconMarkersProcessor.cpp
+	src/vicon_bridge.cpp
+	src/RvizMarkerBuilder.cpp
+)
+
 add_executable(vicon_bridgeNode
 	src/vicon_bridgeNodeMain.cpp
-	src/vicon_bridge.cpp
-	src/ViconMarkersProcessor.cpp
 )
 target_link_libraries(vicon_bridgeNode
+	srcFiles
     msvc_bridge
     ${VICON_SDK_LIBRARY}
     ${catkin_LIBRARIES}
@@ -90,11 +95,9 @@ add_dependencies(vicon_bridgeNode ${PROJECT_NAME}_gencpp)
 
 add_executable(ViconRvizNode
 	src/ViconRvizNodeMain.cpp
-	src/ViconMarkersProcessor.cpp
-	src/vicon_bridge.cpp
-	src/RvizMarkerBuilder.cpp
 )
 target_link_libraries(ViconRvizNode
+	srcFiles
 	msvc_bridge
     ${VICON_SDK_LIBRARY}
     ${catkin_LIBRARIES}

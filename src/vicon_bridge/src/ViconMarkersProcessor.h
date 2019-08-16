@@ -6,13 +6,13 @@
 #include "RvizMarkerBuilder.h"
 
 class ViconMarkersProcessor
-{	
-	public:
-	ViconMarkersProcessor(const ros::Publisher& markerPublisher);
-	void pushMarkers(const vicon_bridge::Markers& markers_msg);
+{
+public:
+	ViconMarkersProcessor(const ros::Publisher &markerPublisher);
+	void pushMarkers(const vicon_bridge::Markers &viconMarkers);
 
-	private:
-	const ros::Publisher& markerPublisher;
+private:
+	const ros::Publisher &markerPublisher;
 	const RvizMarkerBuilder rvizMarkerBuilder;
 };
 

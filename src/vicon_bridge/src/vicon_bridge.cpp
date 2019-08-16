@@ -132,10 +132,10 @@ string Adapt(const Result::Enum i_result)
 }
 
 ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcessor) : markersProcessor(markersProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
-																				 freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
-																				 host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
-																				 lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
-																				 marker_data_enabled(false), unlabeled_marker_data_enabled(false), grab_frames_(false)
+																					  freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
+																					  host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
+																					  lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
+																					  marker_data_enabled(false), unlabeled_marker_data_enabled(false), grab_frames_(false)
 
 {
 	// Diagnostics
@@ -163,8 +163,9 @@ ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcess
 	ROS_INFO("setting up segment calibration service server ... ");
 	calibrate_segment_server_ = nh_priv.advertiseService("calibrate_segment", &ViconReceiver::calibrateSegmentCallback,
 														 this);
-	
-	if (markersProcessor.has_value()) {
+
+	if (markersProcessor.has_value())
+	{
 		publish_markers_ = false;
 	}
 

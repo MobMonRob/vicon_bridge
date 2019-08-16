@@ -126,9 +126,12 @@ vicon_bridge Unterscheidung, ob normal aufgerufen oder als Lib
 Aktuell:
 
 
-MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher -> verwaltet die Transition
+MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher
 RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konfiguration
 
+Array zu Marker und wieder zurück
+
+(11:40) Komischen Fehler beheben
 
 
 ----------
@@ -138,6 +141,12 @@ Vicon ROS ergänzen um Code aus openpose (kopieren) -> https://github.com/steven
 vicon_bridge soll rviz kompatible messages ausgeben -> fixe Konfiguration für Message Felder, die vicon nicht liefert
 neuer node in vicon_bridge erstellen
     -> code umzustrukturieren
+
+vicon testen
+falls keine Messages durchkommen:
+    vicon_bridge.cpp Z. 499: if (marker_pub_.getNumSubscribers() > 0)
+    in Methode vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
+    könnte eine Ursache sein
 
 
 Links:
@@ -159,6 +168,7 @@ Künftig:
 Zunächst alles, was in ros mehr macht als nur Loggging, raus nehmen
 Alles ros Spezifische aus vicon_bridge raus nehmen
 vicon_bridge.cpp in vicon_receiver.cpp umbenennen (auch *.h)
+https://github.com/KumarRobotics/vicon/blob/master/vicon_driver/src/vicon_driver.cpp
 
 
 ----------
