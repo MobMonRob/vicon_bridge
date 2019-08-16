@@ -121,17 +121,15 @@ Daten aus vicon_bridge holen
 CMAKE nochmal anschauen verbessern
 markers Sachen umbennen zum spezifizieren, was gemeint ist
 vicon_bridge Unterscheidung, ob normal aufgerufen oder als Lib
+MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher
+RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konfiguration
+Array zu Marker und wieder zurück
+CMake include Fehler beheben
 
 ----------
 Aktuell:
 
-
-MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher
-RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konfiguration
-
-Array zu Marker und wieder zurück
-
-(11:40) Komischen Fehler beheben
+MarkersProcessor Konversion ausprogrammieren
 
 
 ----------

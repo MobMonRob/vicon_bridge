@@ -76,7 +76,7 @@ target_link_libraries(testclient
     ${Boost_LIBRARIES}
 )
 
-add_library(srcFiles
+add_library(srcFiles STATIC
 	src/ViconMarkersProcessor.cpp
 	src/vicon_bridge.cpp
 	src/RvizMarkerBuilder.cpp

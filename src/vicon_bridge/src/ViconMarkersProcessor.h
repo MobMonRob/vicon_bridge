@@ -1,8 +1,8 @@
 #ifndef VICON_MARKERS_PROCESSOR_H
 #define VICON_MARKERS_PROCESSOR_H
 
-#include <vicon_bridge/Markers.h>
-#include <ros/ros.h>
+#include "ros/publisher.h"
+#include "vicon_bridge/Markers.h"
 #include "RvizMarkerBuilder.h"
 
 class ViconMarkersProcessor
