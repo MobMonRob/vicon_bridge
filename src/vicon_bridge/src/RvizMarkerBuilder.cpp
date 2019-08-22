@@ -11,20 +11,21 @@ using namespace std_msgs;
 
 visualization_msgs::Marker RvizMarkerBuilder::convertViconToRvizMarker(const vicon_bridge::Marker &viconMarker) const
 {
-	//viconMarker.
+	visualization_msgs::Marker marker = buildMarker();
+
+	marker.type = Type::POINTS;
+	marker.points.push_back(viconMarker.translation);	
 
 
-
-	visualization_msgs::Marker test;
-	return test;
+	return marker;
 }
 
-visualization_msgs::Marker RvizMarkerBuilder::getTestMarker()
+visualization_msgs::Marker RvizMarkerBuilder::getTestMarker() const
 {
 	return buildMarker();
 }
 
-visualization_msgs::Marker RvizMarkerBuilder::buildMarker()
+visualization_msgs::Marker RvizMarkerBuilder::buildMarker() const
 {
 	//http://wiki.ros.org/rviz/DisplayTypes/Marker
 	Marker marker; //primitve 3D shape
@@ -59,7 +60,7 @@ bool mesh_use_embedded_materials
 	return marker;
 }
 
-std_msgs::Header RvizMarkerBuilder::buildHeader()
+std_msgs::Header RvizMarkerBuilder::buildHeader() const
 {
 	Header header; //Header for time/frame information
 
@@ -72,7 +73,7 @@ std_msgs::Header RvizMarkerBuilder::buildHeader()
 	return header;
 }
 
-geometry_msgs::Pose RvizMarkerBuilder::buildPose()
+geometry_msgs::Pose RvizMarkerBuilder::buildPose() const
 {
 	Pose pose;
 	Point position;
@@ -93,7 +94,7 @@ geometry_msgs::Pose RvizMarkerBuilder::buildPose()
 	return pose;
 }
 
-geometry_msgs::Vector3 RvizMarkerBuilder::buildScale()
+geometry_msgs::Vector3 RvizMarkerBuilder::buildScale() const
 {
 	Vector3 scale;
 
@@ -104,7 +105,7 @@ geometry_msgs::Vector3 RvizMarkerBuilder::buildScale()
 	return scale;
 }
 
-std_msgs::ColorRGBA RvizMarkerBuilder::buildColor()
+std_msgs::ColorRGBA RvizMarkerBuilder::buildColor() const
 {
 	ColorRGBA color;
 

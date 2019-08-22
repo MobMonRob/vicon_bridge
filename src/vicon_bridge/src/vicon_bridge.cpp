@@ -54,6 +54,8 @@
 #include <vicon_bridge/viconCalibrateSegment.h>
 #include <tf/transform_listener.h>
 
+#include "optional/optional.hpp"
+
 using std::map;
 using std::max;
 using std::min;
@@ -131,7 +133,7 @@ string Adapt(const Result::Enum i_result)
 	}
 }
 
-ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcessor) : markersProcessor(markersProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
+ViconReceiver::ViconReceiver(boost::optional<ViconMarkersProcessor> markersProcessor) : markersProcessor(markersProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
 																					  freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
 																					  host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
 																					  lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
@@ -164,8 +166,9 @@ ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcess
 	calibrate_segment_server_ = nh_priv.advertiseService("calibrate_segment", &ViconReceiver::calibrateSegmentCallback,
 														 this);
 
-	if (markersProcessor.has_value())
+	if (markersProcessor != boost::none)
 	{
+
 		publish_markers_ = false;
 	}
 
@@ -174,6 +177,7 @@ ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcess
 	{
 		marker_pub_ = nh.advertise<vicon_bridge::Markers>(tracked_frame_suffix_ + "/markers", 10);
 	}
+
 	startGrabbing();
 }
 
@@ -334,7 +338,10 @@ void ViconReceiver::grabThread()
 		//      time_log_.push_back(time_log.str());
 		//      last_time = now_time;
 
+		ROS_INFO("---not died, yet 1");
 		bool was_new_frame = process_frame();
+		ROS_INFO("---not died, yet 2");
+
 		ROS_WARN_COND(!was_new_frame, "grab frame returned false");
 
 		diag_updater.update();
@@ -388,11 +395,11 @@ bool ViconReceiver::process_frame()
 			process_subjects(now_time - vicon_latency);
 		}
 
-		if (publish_markers_ || markersProcessor.has_value())
+		if (publish_markers_ || (markersProcessor != boost::none))
 		{
-			vicon_bridge::Markers markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
+			boost::shared_ptr<vicon_bridge::Markers> markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
 
-			if (markersProcessor.has_value())
+			if (markersProcessor != boost::none)
 			{
 				markersProcessor->pushMarkers(markers_msg);
 			}
@@ -400,7 +407,10 @@ bool ViconReceiver::process_frame()
 			{
 				marker_pub_.publish(markers_msg);
 			}
+
+			ROS_INFO("---not died, yet 1.1");
 		}
+		ROS_INFO("---not died, yet 1.2");
 
 		lastTime = now_time;
 		return true;
@@ -494,7 +504,7 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 	cnt++;
 }
 
-vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
+vicon_bridge::MarkersPtr ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
 {
 	if (marker_pub_.getNumSubscribers() > 0)
 	{
@@ -511,9 +521,9 @@ vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time
 			unlabeled_marker_data_enabled = true;
 		}
 		n_markers = 0;
-		vicon_bridge::Markers markers_msg;
-		markers_msg.header.stamp = frame_time;
-		markers_msg.frame_number = vicon_frame_num;
+		vicon_bridge::MarkersPtr markers_msg;
+		markers_msg->header.stamp = frame_time;
+		markers_msg->frame_number = vicon_frame_num;
 		// Count the number of subjects
 		unsigned int SubjectCount = msvcbridge::GetSubjectCount().SubjectCount;
 		// Get labeled markers
@@ -540,7 +550,7 @@ vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time
 				this_marker.translation.z = _Output_GetMarkerGlobalTranslation.Translation[2];
 				this_marker.occluded = _Output_GetMarkerGlobalTranslation.Occluded;
 
-				markers_msg.markers.push_back(this_marker);
+				markers_msg->markers.push_back(this_marker);
 			}
 		}
 		// get unlabeled markers
@@ -561,7 +571,7 @@ vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time
 				this_marker.translation.y = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[1];
 				this_marker.translation.z = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[2];
 				this_marker.occluded = false; // unlabeled markers can't be occluded
-				markers_msg.markers.push_back(this_marker);
+				markers_msg->markers.push_back(this_marker);
 			}
 			else
 			{
@@ -569,6 +579,7 @@ vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time
 						 Adapt(_Output_GetUnlabeledMarkerGlobalTranslation.Result).c_str());
 			}
 		}
+
 		return markers_msg;
 	}
 }

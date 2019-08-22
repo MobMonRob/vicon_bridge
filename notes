@@ -140,7 +140,7 @@ CMake include Fehler beheben
 Aktuell:
 
 (09:25) MarkersProcessor Konveriertung ausprogrammieren
-    (09:40) enum subset
+(10:40) testen
 
 
 Häh??
@@ -166,8 +166,21 @@ Vielleicht hilft es mir etwas, in die Referenz des Vicon SDK + bridge code rein 
 Aber nur kurz. Dann Silvan fragen, falls nicht funktioniert.
 
 Sonst auch erst mal ausprobieren eine Version, bevor so lange Überlege.
-Ich probiere: vicon_bridge Marker zu Kugeln konvertieren für Rviz
+Ich probiere: vicon_bridge Marker zu Punkten konvertieren für Rviz
 
+Mit Testdaten in Rviz ausprobieren, dann mit vicon direkt
+
+Villeicht lag es nicht an der C++ Version?
+
+Das Problem liegt darin, dass was process_markers zurück gibt bei der Destuktion kaputt geht.
+    Warum ist das erst jetzt passiert?????????? ->liegt das an der kleinen Änderung?
+
+Vielleicht mögen die Markers es nicht, von einer Funktion zurück gegeben zu werden??
+    ->ausprobieren: ein smart Pointer darum wickeln
+    
+
+optional wieder weg machen und boost Dateien löschen
+RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
 ----------
 Tun:
 
@@ -181,6 +194,8 @@ falls keine Messages durchkommen:
 ----------
 Vielleicht tun:
 
+Skripte für bauen und zum starten erstellen
+RvizMarkerBuilder verbessern
 Zunächst alles, was in ros mehr macht als nur Logging, raus nehmen
 Alles ros Spezifische aus vicon_bridge raus nehmen
 vicon_bridge.cpp in vicon_receiver.cpp umbenennen (auch *.h)
@@ -204,6 +219,19 @@ MarkerBuilder:
 
 vicon_bridge (->vicon_receiver): holt Daten von vicon
 Builder Bridge Kleber: holt die Daten von der Bridge und gibt sie dem Builder
+----------
+Debuggen:
+
+catkin_make -DCMAKE_BUILD_TYPE=Debug
+
+launch-prefix="gdb -ex run --args
+ergänzen in .launch Datei. Bsp: <node pkg="vicon_bridge" type="vicon_bridgeNode" name="vicon_bridgeNode" output="screen" launch-prefix="gdb -ex run --args">
+
+dann ganz normal ausführen.
+
+return Taste klicken bei Nachfrage
+
+
 ----------
 
 vicon API Dokumentation
