@@ -7,10 +7,10 @@
 //http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 enum Type
 {
-	ARROW = 0,
-	CUBE = 1,
-	SPHERE = 2,
-	CYLINDER = 3,
+	ARROW = visualization_msgs::Marker::ARROW,
+	CUBE = visualization_msgs::Marker::CUBE,
+	SPHERE = visualization_msgs::Marker::SPHERE,
+	CYLINDER = visualization_msgs::Marker::CYLINDER,
 	//LINE_STRIP		= 4, //not supportet, yet -> set manually
 	//LINE_LIST			= 5,
 	//CUBE_LIST			= 6,
@@ -24,10 +24,10 @@ enum Type
 //http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 enum Action
 {
-	ADD = 0,
-	MODIFY = 0,
-	DELETE = 2,
-	DELETEAL = 3
+	ADD = visualization_msgs::Marker::ADD,
+	MODIFY = visualization_msgs::Marker::MODIFY,
+	DELETE = visualization_msgs::Marker::DELETE,
+	DELETEALL = visualization_msgs::Marker::DELETEALL
 };
 
 class RvizMarkerBuilder

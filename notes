@@ -139,7 +139,8 @@ CMake include Fehler beheben
 ----------
 Aktuell:
 
-() MarkersProcessor Konveriertung ausprogrammieren
+(09:25) MarkersProcessor Konveriertung ausprogrammieren
+    (09:40) enum subset
 
 
 Häh??
@@ -157,13 +158,15 @@ http://docs.ros.org/api/geometry_msgs/html/msg/Transform.html
 http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Point.html
 http://wiki.ros.org/vicon_bridge
 http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
-http://docs.ros.org/api/geometry_msgs/html/msg/Pose.html
+        http://docs.ros.org/api/geometry_msgs/html/msg/Pose.html
 
 
 
-Vielleicht hilft es mir etwas, in die Referenz des Vicon SDK rein zu schauen, um zu verstehen, was die Daten bedeuten und folglich, wie die messages semantisch korrekt konvertiert werden.
+Vielleicht hilft es mir etwas, in die Referenz des Vicon SDK + bridge code rein zu schauen, um zu verstehen, was die Daten bedeuten und folglich, wie die messages semantisch korrekt konvertiert werden.
 Aber nur kurz. Dann Silvan fragen, falls nicht funktioniert.
 
+Sonst auch erst mal ausprobieren eine Version, bevor so lange Überlege.
+Ich probiere: vicon_bridge Marker zu Kugeln konvertieren für Rviz
 
 ----------
 Tun:
@@ -204,7 +207,7 @@ Builder Bridge Kleber: holt die Daten von der Bridge und gibt sie dem Builder
 ----------
 
 vicon API Dokumentation
-
+Vicon DataStream SDK alt: S. 60(65)
 
 
 
