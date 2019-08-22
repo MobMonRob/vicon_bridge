@@ -54,7 +54,7 @@
 #include <vicon_bridge/viconCalibrateSegment.h>
 #include <tf/transform_listener.h>
 
-#include "optional/optional.hpp"
+#include <cstdint>
 
 using std::map;
 using std::max;
@@ -133,7 +133,7 @@ string Adapt(const Result::Enum i_result)
 	}
 }
 
-ViconReceiver::ViconReceiver(boost::optional<ViconMarkersProcessor> markersProcessor) : markersProcessor(markersProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
+ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcessor) : markersProcessor(markersProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
 																					  freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
 																					  host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
 																					  lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
@@ -166,9 +166,8 @@ ViconReceiver::ViconReceiver(boost::optional<ViconMarkersProcessor> markersProce
 	calibrate_segment_server_ = nh_priv.advertiseService("calibrate_segment", &ViconReceiver::calibrateSegmentCallback,
 														 this);
 
-	if (markersProcessor != boost::none)
+	if (markersProcessor.has_value())
 	{
-
 		publish_markers_ = false;
 	}
 
@@ -338,9 +337,7 @@ void ViconReceiver::grabThread()
 		//      time_log_.push_back(time_log.str());
 		//      last_time = now_time;
 
-		ROS_INFO("---not died, yet 1");
 		bool was_new_frame = process_frame();
-		ROS_INFO("---not died, yet 2");
 
 		ROS_WARN_COND(!was_new_frame, "grab frame returned false");
 
@@ -395,22 +392,21 @@ bool ViconReceiver::process_frame()
 			process_subjects(now_time - vicon_latency);
 		}
 
-		if (publish_markers_ || (markersProcessor != boost::none))
+		if (publish_markers_ || markersProcessor.has_value())
 		{
-			boost::shared_ptr<vicon_bridge::Markers> markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
+			vicon_bridge::MarkersPtr markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
 
-			if (markersProcessor != boost::none)
+			uint32_t test = markers_msg->frame_number; //Mag er auch diese Dereferenzierung nicht?
+
+			if (markersProcessor.has_value())
 			{
 				markersProcessor->pushMarkers(markers_msg);
 			}
 			else
 			{
-				marker_pub_.publish(markers_msg);
+				//marker_pub_.publish(markers_msg);
 			}
-
-			ROS_INFO("---not died, yet 1.1");
 		}
-		ROS_INFO("---not died, yet 1.2");
 
 		lastTime = now_time;
 		return true;

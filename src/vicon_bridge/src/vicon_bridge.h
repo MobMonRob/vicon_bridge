@@ -31,13 +31,13 @@ typedef std::map<string, SegmentPublisher> SegmentMap;
 class ViconReceiver
 {
 public:
-	ViconReceiver(boost::optional<ViconMarkersProcessor> markersProcessor = boost::optional<ViconMarkersProcessor>());
+	ViconReceiver(std::optional<ViconMarkersProcessor> markersProcessor = std::nullopt);
 	~ViconReceiver();
 	void startGrabbing();
 	void stopGrabbing();
 
 private:
-	boost::optional<ViconMarkersProcessor> markersProcessor;
+	std::optional<ViconMarkersProcessor> markersProcessor;
 
 	ros::NodeHandle nh;
 	ros::NodeHandle nh_priv;

@@ -135,13 +135,13 @@ MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher
 RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konfiguration
 Array zu Marker und wieder zurück
 CMake include Fehler beheben
+Seltsamen Bug behoben: Markers dürfen nicht von Methoden zurück gegeben werden weil sonst segfault
 
 ----------
 Aktuell:
 
-(09:25) MarkersProcessor Konveriertung ausprogrammieren
-(10:40) testen
-
+MarkersProcessor Konveriertung ausprogrammieren
+testen
 
 Häh??
 StransformStamped passt von der Datenstruktur her viel besser zu Rviz Markers??
@@ -165,22 +165,27 @@ http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 Vielleicht hilft es mir etwas, in die Referenz des Vicon SDK + bridge code rein zu schauen, um zu verstehen, was die Daten bedeuten und folglich, wie die messages semantisch korrekt konvertiert werden.
 Aber nur kurz. Dann Silvan fragen, falls nicht funktioniert.
 
-Sonst auch erst mal ausprobieren eine Version, bevor so lange Überlege.
-Ich probiere: vicon_bridge Marker zu Punkten konvertieren für Rviz
-
+Sonst auch erst mal ausprobieren eine Version, bevor so lange Überlege
 Mit Testdaten in Rviz ausprobieren, dann mit vicon direkt
 
-Villeicht lag es nicht an der C++ Version?
+Wenn ich den Bug nicht weg bekomme, muss ich vielleicht sogar die Messages in der vicon_bridge konstruieren. Das wäre halt ziemlich hässlich.
 
-Das Problem liegt darin, dass was process_markers zurück gibt bei der Destuktion kaputt geht.
-    Warum ist das erst jetzt passiert?????????? ->liegt das an der kleinen Änderung?
 
-Vielleicht mögen die Markers es nicht, von einer Funktion zurück gegeben zu werden??
-    ->ausprobieren: ein smart Pointer darum wickeln
-    
 
-optional wieder weg machen und boost Dateien löschen
-RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
+(12:45) BUG REPARIEREN
+
+Momentan: vicon_bridge Z. 399
+
+
+
+
+
+
+
+
+
+
+
 ----------
 Tun:
 
@@ -189,8 +194,9 @@ falls keine Messages durchkommen:
     vicon_bridge.cpp Z. 499: if (marker_pub_.getNumSubscribers() > 0)
     in Methode vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
     könnte eine Ursache sein
+RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
 
-    
+
 ----------
 Vielleicht tun:
 
@@ -219,6 +225,8 @@ MarkerBuilder:
 
 vicon_bridge (->vicon_receiver): holt Daten von vicon
 Builder Bridge Kleber: holt die Daten von der Bridge und gibt sie dem Builder
+
+
 ----------
 Debuggen:
 
@@ -231,7 +239,16 @@ dann ganz normal ausführen.
 
 return Taste klicken bei Nachfrage
 
+gdb Backtrace:
+bt
+->return Taste, um mehr zu sehen
 
+
+----------
+Achtung:
+
+Markers nicht von Methode zurück geben lasse! ->Gibt segfault
+Stattdessen: MarkersPtr benutzen!
 ----------
 
 vicon API Dokumentation
