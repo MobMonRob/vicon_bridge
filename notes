@@ -137,6 +137,7 @@ Array zu Marker und wieder zurück
 CMake include Fehler beheben
 !!!Seltsamen Bug umgangen: Markers dürfen nicht von Methoden zurück gegeben werden weil sonst segfault
     falsch!!!! Eigentlich habe ich nur ein return bei einer Methode vergessen. Der Compiler hat das aber nicht bemängelt.
+    ->dauerhaft verhindert, in dem in CMakeLists.txt Compiler Warnungen aktiviert habe
 Datenzurück geben greht nicht beheben
 
 
@@ -172,6 +173,12 @@ Aber nur kurz. Dann Silvan fragen, falls nicht funktioniert.
 Sonst auch erst mal ausprobieren eine Version, bevor so lange Überlege
 Mit Testdaten in Rviz ausprobieren, dann mit vicon direkt
 
+
+
+
+vicon/test1/test1
+enthält tatsächlich Poses!!
+-->Poses grabben statt Marker!!!!
 
 
 

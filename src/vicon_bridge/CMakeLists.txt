@@ -104,3 +104,7 @@ target_link_libraries(ViconRvizNodeMain
 )
 add_dependencies(ViconRvizNodeMain ${PROJECT_NAME}_gencpp)
 
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -Werror=return-type -fdiagnostics-show-option")
+endif()
+
