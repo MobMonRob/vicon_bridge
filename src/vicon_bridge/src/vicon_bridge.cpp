@@ -394,18 +394,7 @@ bool ViconReceiver::process_frame()
 
 		if (publish_markers_ || markersProcessor.has_value())
 		{
-			vicon_bridge::MarkersPtr markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
-
-			uint32_t test = markers_msg->frame_number; //Mag er auch diese Dereferenzierung nicht?
-
-			if (markersProcessor.has_value())
-			{
-				markersProcessor->pushMarkers(markers_msg);
-			}
-			else
-			{
-				//marker_pub_.publish(markers_msg);
-			}
+			process_markers(now_time - vicon_latency, lastFrameNumber);
 		}
 
 		lastTime = now_time;
@@ -500,7 +489,7 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 	cnt++;
 }
 
-vicon_bridge::MarkersPtr ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
+void ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
 {
 	if (marker_pub_.getNumSubscribers() > 0)
 	{
@@ -517,9 +506,9 @@ vicon_bridge::MarkersPtr ViconReceiver::process_markers(const ros::Time &frame_t
 			unlabeled_marker_data_enabled = true;
 		}
 		n_markers = 0;
-		vicon_bridge::MarkersPtr markers_msg;
-		markers_msg->header.stamp = frame_time;
-		markers_msg->frame_number = vicon_frame_num;
+		vicon_bridge::Markers markers_msg;
+		markers_msg.header.stamp = frame_time;
+		markers_msg.frame_number = vicon_frame_num;
 		// Count the number of subjects
 		unsigned int SubjectCount = msvcbridge::GetSubjectCount().SubjectCount;
 		// Get labeled markers
@@ -546,7 +535,7 @@ vicon_bridge::MarkersPtr ViconReceiver::process_markers(const ros::Time &frame_t
 				this_marker.translation.z = _Output_GetMarkerGlobalTranslation.Translation[2];
 				this_marker.occluded = _Output_GetMarkerGlobalTranslation.Occluded;
 
-				markers_msg->markers.push_back(this_marker);
+				markers_msg.markers.push_back(this_marker);
 			}
 		}
 		// get unlabeled markers
@@ -567,7 +556,7 @@ vicon_bridge::MarkersPtr ViconReceiver::process_markers(const ros::Time &frame_t
 				this_marker.translation.y = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[1];
 				this_marker.translation.z = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[2];
 				this_marker.occluded = false; // unlabeled markers can't be occluded
-				markers_msg->markers.push_back(this_marker);
+				markers_msg.markers.push_back(this_marker);
 			}
 			else
 			{
@@ -576,7 +565,15 @@ vicon_bridge::MarkersPtr ViconReceiver::process_markers(const ros::Time &frame_t
 			}
 		}
 
-		return markers_msg;
+		//Geht nicht anders als hier, da wenn markers_msg zurück gebe, segfault bekomme und nicht weiß, weshalb
+		if (markersProcessor.has_value())
+		{
+			markersProcessor->pushMarkers(markers_msg);
+		}
+		else
+		{
+			marker_pub_.publish(markers_msg);
+		}
 	}
 }
 

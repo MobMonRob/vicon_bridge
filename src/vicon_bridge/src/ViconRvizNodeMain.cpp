@@ -24,7 +24,8 @@ int main(int argc, char **argv)
 
 void testVicon(ros::NodeHandle nodeHandle)
 {
-	ros::Publisher markerPublisher = nodeHandle.advertise<visualization_msgs::MarkerArray>("marker", 1000);
+	//ros::Publisher markerPublisher = nodeHandle.advertise<visualization_msgs::MarkerArray>("marker", 1000);
+	ros::Publisher markerPublisher = nodeHandle.advertise<visualization_msgs::Marker>("marker", 1000);
 
 	ViconMarkersProcessor markersProcessor(markerPublisher);
 

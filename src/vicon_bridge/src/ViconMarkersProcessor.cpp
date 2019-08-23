@@ -4,16 +4,18 @@
 
 ViconMarkersProcessor::ViconMarkersProcessor(const ros::Publisher &markerPublisher) : markerPublisher(markerPublisher), rvizMarkerBuilder() {}
 
-void ViconMarkersProcessor::pushMarkers(const vicon_bridge::MarkersPtr viconMarkers)
+void ViconMarkersProcessor::pushMarkers(const vicon_bridge::Markers &viconMarkers)
 {
 	visualization_msgs::MarkerArray rvizMarkers;
 
 	//Vllt. in den RvizmarkerBuilder auslagern
-	for (const vicon_bridge::Marker &currentViconMarker : viconMarkers->markers)
+	for (const vicon_bridge::Marker &currentViconMarker : viconMarkers.markers)
 	{
 		visualization_msgs::Marker currentrvizMarker = rvizMarkerBuilder.convertViconToRvizMarker(currentViconMarker);
-		rvizMarkers.markers.push_back(currentrvizMarker);
+
+		markerPublisher.publish(currentrvizMarker);
+		//rvizMarkers.markers.push_back(currentrvizMarker);
 	}
 
-	markerPublisher.publish(rvizMarkers);
+	//markerPublisher.publish(rvizMarkers);
 }

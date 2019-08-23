@@ -135,10 +135,15 @@ MarkersProcessor hat einen MarkerBuilder und kennt einen markerPublisher
 RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konfiguration
 Array zu Marker und wieder zurück
 CMake include Fehler beheben
-Seltsamen Bug behoben: Markers dürfen nicht von Methoden zurück gegeben werden weil sonst segfault
+!!!Seltsamen Bug umgangen: Markers dürfen nicht von Methoden zurück gegeben werden weil sonst segfault
+
 
 ----------
 Aktuell:
+
+
+(10:05-) Datenzurück geben schauen, warum nicht
+
 
 MarkersProcessor Konveriertung ausprogrammieren
 testen
@@ -167,22 +172,6 @@ Aber nur kurz. Dann Silvan fragen, falls nicht funktioniert.
 
 Sonst auch erst mal ausprobieren eine Version, bevor so lange Überlege
 Mit Testdaten in Rviz ausprobieren, dann mit vicon direkt
-
-Wenn ich den Bug nicht weg bekomme, muss ich vielleicht sogar die Messages in der vicon_bridge konstruieren. Das wäre halt ziemlich hässlich.
-
-
-
-(12:45) BUG REPARIEREN
-
-Momentan: vicon_bridge Z. 399
-
-
-
-
-
-
-
-
 
 
 

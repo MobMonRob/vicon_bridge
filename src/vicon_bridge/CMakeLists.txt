@@ -82,25 +82,25 @@ add_library(srcFiles STATIC
 	src/RvizMarkerBuilder.cpp
 )
 
-add_executable(vicon_bridgeNode
+add_executable(vicon_bridgeNodeMain
 	src/vicon_bridgeNodeMain.cpp
 )
-target_link_libraries(vicon_bridgeNode
+target_link_libraries(vicon_bridgeNodeMain
 	srcFiles
     msvc_bridge
     ${VICON_SDK_LIBRARY}
     ${catkin_LIBRARIES}
 )
-add_dependencies(vicon_bridgeNode ${PROJECT_NAME}_gencpp)
+add_dependencies(vicon_bridgeNodeMain ${PROJECT_NAME}_gencpp)
 
-add_executable(ViconRvizNode
+add_executable(ViconRvizNodeMain
 	src/ViconRvizNodeMain.cpp
 )
-target_link_libraries(ViconRvizNode
+target_link_libraries(ViconRvizNodeMain
 	srcFiles
 	msvc_bridge
     ${VICON_SDK_LIBRARY}
     ${catkin_LIBRARIES}
 )
-add_dependencies(ViconRvizNode ${PROJECT_NAME}_gencpp)
+add_dependencies(ViconRvizNodeMain ${PROJECT_NAME}_gencpp)
 
