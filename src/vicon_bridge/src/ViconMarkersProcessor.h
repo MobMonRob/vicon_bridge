@@ -9,7 +9,7 @@ class ViconMarkersProcessor
 {
 public:
 	ViconMarkersProcessor(const ros::Publisher &markerPublisher);
-	void pushMarkers(const vicon_bridge::Markers &viconMarkers);
+	void pushMarkers(const vicon_bridge::Markers &viconMarkers) const;
 
 private:
 	const ros::Publisher &markerPublisher;

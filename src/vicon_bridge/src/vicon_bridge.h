@@ -37,7 +37,7 @@ public:
 	void stopGrabbing();
 
 private:
-	std::optional<ViconMarkersProcessor> markersProcessor;
+	const std::optional<ViconMarkersProcessor> markersProcessor;
 
 	ros::NodeHandle nh;
 	ros::NodeHandle nh_priv;
