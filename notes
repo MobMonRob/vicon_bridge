@@ -136,13 +136,12 @@ RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konf
 Array zu Marker und wieder zurück
 CMake include Fehler beheben
 !!!Seltsamen Bug umgangen: Markers dürfen nicht von Methoden zurück gegeben werden weil sonst segfault
+    falsch!!!! Eigentlich habe ich nur ein return bei einer Methode vergessen. Der Compiler hat das aber nicht bemängelt.
+Datenzurück geben greht nicht beheben
 
 
 ----------
 Aktuell:
-
-
-(10:05-) Datenzurück geben schauen, warum nicht
 
 
 MarkersProcessor Konveriertung ausprogrammieren
@@ -173,9 +172,6 @@ Aber nur kurz. Dann Silvan fragen, falls nicht funktioniert.
 Sonst auch erst mal ausprobieren eine Version, bevor so lange Überlege
 Mit Testdaten in Rviz ausprobieren, dann mit vicon direkt
 
-
-
-klappt es jetzt vielleicht auch, die Daten zurück zu geben, weil nicht mehr null??
 
 
 

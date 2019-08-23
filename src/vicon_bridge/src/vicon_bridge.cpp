@@ -394,7 +394,16 @@ bool ViconReceiver::process_frame()
 
 		if (publish_markers_ || markersProcessor.has_value())
 		{
-			process_markers(now_time - vicon_latency, lastFrameNumber);
+			vicon_bridge::Markers markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
+
+			if (markersProcessor.has_value())
+			{
+				markersProcessor->pushMarkers(markers_msg);
+			}
+			else
+			{
+				marker_pub_.publish(markers_msg);
+			}
 		}
 
 		lastTime = now_time;
@@ -489,7 +498,7 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 	cnt++;
 }
 
-void ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
+vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
 {
 	if ((marker_pub_.getNumSubscribers() > 0) || markersProcessor.has_value()) // not nice
 	{
@@ -565,16 +574,10 @@ void ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vi
 			}
 		}
 
-		//Geht nicht anders als hier, da wenn markers_msg zurück gebe, segfault bekomme und nicht weiß, weshalb
-		if (markersProcessor.has_value())
-		{
-			markersProcessor->pushMarkers(markers_msg);
-		}
-		else
-		{
-			marker_pub_.publish(markers_msg);
-		}
+		return markers_msg;
 	}
+
+	return vicon_bridge::Markers();
 }
 
 bool ViconReceiver::grabPoseCallback(vicon_bridge::viconGrabPose::Request &req, vicon_bridge::viconGrabPose::Response &resp)
