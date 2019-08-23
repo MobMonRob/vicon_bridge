@@ -77,7 +77,7 @@ target_link_libraries(testclient
 )
 
 add_library(srcFiles STATIC
-	src/ViconMarkersProcessor.cpp
+	src/ViconPoseProcessor.cpp
 	src/vicon_bridge.cpp
 	src/RvizMarkerBuilder.cpp
 )

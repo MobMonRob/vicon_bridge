@@ -11,7 +11,8 @@
 #include <map>
 #include <vicon_bridge/viconCalibrateSegment.h>
 
-#include "ViconMarkersProcessor.h"
+#include "ViconPoseProcessor.h"
+#include "vicon_bridge/Markers.h"
 
 using std::string;
 
@@ -31,13 +32,13 @@ typedef std::map<string, SegmentPublisher> SegmentMap;
 class ViconReceiver
 {
 public:
-	ViconReceiver(std::optional<ViconMarkersProcessor> markersProcessor = std::nullopt);
+	ViconReceiver(std::optional<ViconPoseProcessor> poseProcessor = std::nullopt);
 	~ViconReceiver();
 	void startGrabbing();
 	void stopGrabbing();
 
 private:
-	const std::optional<ViconMarkersProcessor> markersProcessor;
+	const std::optional<ViconPoseProcessor> poseProcessor;
 
 	ros::NodeHandle nh;
 	ros::NodeHandle nh_priv;

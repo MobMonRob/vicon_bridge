@@ -1,8 +1,8 @@
 #ifndef RVIZ_MARKERBUILDER_H
 #define RVIZ_MARKERBUILDER_H
 
-#include <vicon_bridge/Marker.h>
-#include "visualization_msgs/Marker.h"
+#include <visualization_msgs/Marker.h>
+#include "geometry_msgs/TransformStamped.h"
 
 //http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 enum Type
@@ -36,7 +36,7 @@ public:
 	//Geht nicht wegen ros::Time::now() darf nicht aufgerufen werden, bevor das System initialisiert wurde
 	//static const visualization_msgs::Marker testMarker;
 
-	visualization_msgs::Marker convertViconToRvizMarker(const vicon_bridge::Marker &viconMarker) const;
+	visualization_msgs::Marker convertViconPoseToRvizMarker(geometry_msgs::TransformStampedPtr pose_msg) const;
 	visualization_msgs::Marker getTestMarker() const;
 
 private:

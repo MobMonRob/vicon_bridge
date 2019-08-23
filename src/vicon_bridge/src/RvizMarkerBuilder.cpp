@@ -9,13 +9,17 @@ using namespace std_msgs;
 //Geht nicht wegen ros::Time::now() darf nicht aufgerufen werden, bevor das System initialisiert wurde
 //const visualization_msgs::Marker RvizMarkerBuilder::testMarker = RvizMarkerBuilder::buildMarker();
 
-visualization_msgs::Marker RvizMarkerBuilder::convertViconToRvizMarker(const vicon_bridge::Marker &viconMarker) const
+visualization_msgs::Marker RvizMarkerBuilder::convertViconPoseToRvizMarker(geometry_msgs::TransformStampedPtr pose_msg) const
 {
 	visualization_msgs::Marker marker = buildMarker();
 
-	marker.type = Type::POINTS;
-	marker.points.push_back(viconMarker.translation);	
-
+	marker.type = Type::SPHERE;
+	marker.header = pose_msg->header;
+	marker.ns = pose_msg->child_frame_id;
+	marker.pose.position.x = pose_msg->transform.translation.x;
+	marker.pose.position.y = pose_msg->transform.translation.y;
+	marker.pose.position.z = pose_msg->transform.translation.z;
+	marker.pose.orientation = pose_msg->transform.rotation;
 
 	return marker;
 }

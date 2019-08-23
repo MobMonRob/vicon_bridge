@@ -94,7 +94,7 @@ roslaunch vicon_bridge vicon_rviz.launch
 Nachrichten auslesen im Worspace:
 Neues Konsolenfenster:
 //rostopic echo vicon/test1/test1
-rostopic echo marker
+rostopic echo vicon_rviz_marker
 
 ----------
 Getan:
@@ -138,60 +138,22 @@ CMake include Fehler beheben
 !!!Seltsamen Bug umgangen: Markers dürfen nicht von Methoden zurück gegeben werden weil sonst segfault
     falsch!!!! Eigentlich habe ich nur ein return bei einer Methode vergessen. Der Compiler hat das aber nicht bemängelt.
     ->dauerhaft verhindert, in dem in CMakeLists.txt Compiler Warnungen aktiviert habe
-Datenzurück geben greht nicht beheben
+Daten zurück geben geht nicht beheben
+vicon_bridge Poses holen (statt Marker, was ich zuvor dachte und implementierte)
 
 
 ----------
 Aktuell:
 
-
-MarkersProcessor Konveriertung ausprogrammieren
-testen
-
-Häh??
-StransformStamped passt von der Datenstruktur her viel besser zu Rviz Markers??
-Was bedeuten die Daten überhaupt??
-
-Markers ist eine Liste von Marker
-Ein Marker der vicon_bridge enthält einen Point mit Name translation
-Transforms der vicon_bridge enthalten ??? eine Pose?
-
-Marker von Rviz enhalten eine Pose die so aufgebaut ist wie ein Transform
-außerdem kann man Point schicken
-
-http://docs.ros.org/api/geometry_msgs/html/msg/Transform.html
-http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Point.html
-http://wiki.ros.org/vicon_bridge
-http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
-        http://docs.ros.org/api/geometry_msgs/html/msg/Pose.html
-
-
-
-Vielleicht hilft es mir etwas, in die Referenz des Vicon SDK + bridge code rein zu schauen, um zu verstehen, was die Daten bedeuten und folglich, wie die messages semantisch korrekt konvertiert werden.
-Aber nur kurz. Dann Silvan fragen, falls nicht funktioniert.
-
-Sonst auch erst mal ausprobieren eine Version, bevor so lange Überlege
-Mit Testdaten in Rviz ausprobieren, dann mit vicon direkt
-
-
-
-
-vicon/test1/test1
-enthält tatsächlich Poses!!
--->Poses grabben statt Marker!!!!
-
-
-
+(12:05-)
+in Rviz ausprobieren
+    wie rviz anschließen?
 
 
 ----------
 Tun:
 
-vicon testen
-falls keine Messages durchkommen:
-    vicon_bridge.cpp Z. 499: if (marker_pub_.getNumSubscribers() > 0)
-    in Methode vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
-    könnte eine Ursache sein
+MarkersProcessor Konveriertung ausprogrammieren
 RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
 
 
@@ -204,6 +166,7 @@ Zunächst alles, was in ros mehr macht als nur Logging, raus nehmen
 Alles ros Spezifische aus vicon_bridge raus nehmen
 vicon_bridge.cpp in vicon_receiver.cpp umbenennen (auch *.h)
 https://github.com/KumarRobotics/vicon/blob/master/vicon_driver/src/vicon_driver.cpp
+Oliver fragen, auf GitHub tun
 
 
 ----------
@@ -212,6 +175,9 @@ Klassenstruktur:
 Main: hat einen NodeStarter, dem der ViconRvizNode übergeben wird
 NodeStarter: enthält Boiler Plate, um Nodes auszuführen, polymorph
 ViconRvizNode: enthält Code, der für den Node spezifisch ist -> was wird gepublished, ...
+
+RvizMarkerBuilder:
+    konvertiert vicon_bridge poses zu rviz Markern mithilfe des MarkerBuilders
 
 MarkerBuilder:
     enhält und speichert Konfiguration(en), um Marker zu bauen und baut sie
@@ -242,11 +208,6 @@ bt
 ->return Taste, um mehr zu sehen
 
 
-----------
-Achtung:
-
-Markers nicht von Methode zurück geben lasse! ->Gibt segfault
-Stattdessen: MarkersPtr benutzen!
 ----------
 
 vicon API Dokumentation

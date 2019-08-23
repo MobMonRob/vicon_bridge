@@ -133,11 +133,11 @@ string Adapt(const Result::Enum i_result)
 	}
 }
 
-ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcessor) : markersProcessor(markersProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
-																					  freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
-																					  host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
-																					  lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
-																					  marker_data_enabled(false), unlabeled_marker_data_enabled(false), grab_frames_(false)
+ViconReceiver::ViconReceiver(std::optional<ViconPoseProcessor> poseProcessor) : poseProcessor(poseProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
+																				freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
+																				host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
+																				lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
+																				marker_data_enabled(false), unlabeled_marker_data_enabled(false), grab_frames_(false)
 
 {
 	// Diagnostics
@@ -165,11 +165,6 @@ ViconReceiver::ViconReceiver(std::optional<ViconMarkersProcessor> markersProcess
 	ROS_INFO("setting up segment calibration service server ... ");
 	calibrate_segment_server_ = nh_priv.advertiseService("calibrate_segment", &ViconReceiver::calibrateSegmentCallback,
 														 this);
-
-	if (markersProcessor.has_value())
-	{
-		publish_markers_ = false;
-	}
 
 	// Publishers
 	if (publish_markers_)
@@ -392,18 +387,10 @@ bool ViconReceiver::process_frame()
 			process_subjects(now_time - vicon_latency);
 		}
 
-		if (publish_markers_ || markersProcessor.has_value())
+		if (publish_markers_)
 		{
 			vicon_bridge::Markers markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
-
-			if (markersProcessor.has_value())
-			{
-				markersProcessor->pushMarkers(markers_msg);
-			}
-			else
-			{
-				marker_pub_.publish(markers_msg);
-			}
+			marker_pub_.publish(markers_msg);
 		}
 
 		lastTime = now_time;
@@ -463,10 +450,18 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 								//                  transform = tf::StampedTransform(flyer_transform, frame_time, tf_ref_frame_id_, tracked_frame);
 								//                  tf_broadcaster_.sendTransform(transform);
 
-								if (publish_tf_)
+								if (publish_tf_ || poseProcessor.has_value())
 								{
 									tf::transformStampedTFToMsg(transforms.back(), *pose_msg);
-									seg.pub.publish(pose_msg);
+
+									if (poseProcessor.has_value())
+									{
+										poseProcessor->pushPoses(pose_msg);
+									}
+									else
+									{
+										seg.pub.publish(pose_msg);
+									}
 								}
 							}
 						}
@@ -500,7 +495,7 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 
 vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
 {
-	if ((marker_pub_.getNumSubscribers() > 0) || markersProcessor.has_value()) // not nice
+	if (marker_pub_.getNumSubscribers() > 0)
 	{
 		if (not marker_data_enabled)
 		{
