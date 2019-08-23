@@ -27,6 +27,7 @@ Ros Messages anschauen:
 rosmsg show [message type]
 
 Rviz (3D-Visualisierungssystem) zum anschauen
+https://stackoverflow.com/questions/52420672/ros-rviz-how-to-visualize-a-point-cloud-that-doesnt-have-a-fixed-frame-transfo
 
 ROS Pfad: /opt/ros/melodic
 
@@ -140,21 +141,20 @@ CMake include Fehler beheben
     ->dauerhaft verhindert, in dem in CMakeLists.txt Compiler Warnungen aktiviert habe
 Daten zurück geben geht nicht beheben
 vicon_bridge Poses holen (statt Marker, was ich zuvor dachte und implementierte)
+in Rviz ausprobieren
+    wie rviz anschließen?
+    ---->funktioniert; aber: Oliver fragen, wie das im Endeffekt aussehen soll
 
 
 ----------
 Aktuell:
 
-(12:05-)
-in Rviz ausprobieren
-    wie rviz anschließen?
+(12:20-)
+RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
 
 
 ----------
 Tun:
-
-MarkersProcessor Konveriertung ausprogrammieren
-RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
 
 
 ----------
@@ -216,4 +216,5 @@ Vicon DataStream SDK alt: S. 60(65)
 
 
 Wenn Zeit habe: Silvan nochmal fragen: Er meinte, ich solle für Oliver was bauen, das sie Samplerate des vicon Systems ausliest und damit was macht.
+Oliver fragen, wie die Visualisierung in Rviz im Endeffekt aussehen soll
 
