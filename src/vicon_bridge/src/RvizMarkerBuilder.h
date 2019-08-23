@@ -3,26 +3,34 @@
 
 #include <visualization_msgs/Marker.h>
 #include "geometry_msgs/TransformStamped.h"
+#include "geometry_msgs/Quaternion.h"
+#include "geometry_msgs/Point.h"
+
+namespace Markerproperty
+{
+enum Type : uint8_t;
+enum Action : uint8_t;
+} // namespace Markerproperty
 
 //http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
-enum Type
+enum Markerproperty::Type : uint8_t
 {
-	ARROW 				= visualization_msgs::Marker::ARROW,
-	CUBE 				= visualization_msgs::Marker::CUBE,
-	SPHERE 				= visualization_msgs::Marker::SPHERE,
-	CYLINDER 			= visualization_msgs::Marker::CYLINDER,
-	//LINE_STRIP		= 4, //not supportet, yet -> set manually
-	//LINE_LIST			= 5,
-	//CUBE_LIST			= 6,
-	//SPHERE_LIST		= 7,
-	POINTS				= visualization_msgs::Marker::POINTS,
-	//TEXT_VIEW_FACING	= 9,
-	//MESH_RESOURCE		= 10,
-	//TRIANGLE_LIST		= 11
+	ARROW = visualization_msgs::Marker::ARROW,
+	CUBE = visualization_msgs::Marker::CUBE,
+	SPHERE = visualization_msgs::Marker::SPHERE,
+	CYLINDER = visualization_msgs::Marker::CYLINDER,
+	LINE_STRIP = visualization_msgs::Marker::LINE_LIST,
+	LINE_LIST = visualization_msgs::Marker::LINE_LIST,
+	CUBE_LIST = visualization_msgs::Marker::CUBE_LIST,
+	SPHERE_LIST = visualization_msgs::Marker::SPHERE_LIST,
+	POINTS = visualization_msgs::Marker::POINTS,
+	TEXT_VIEW_FACING = visualization_msgs::Marker::TEXT_VIEW_FACING,
+	MESH_RESOURCE = visualization_msgs::Marker::MESH_RESOURCE,
+	TRIANGLE_LIST = visualization_msgs::Marker::TRIANGLE_LIST,
 };
 
 //http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
-enum Action
+enum Markerproperty::Action : uint8_t
 {
 	ADD = visualization_msgs::Marker::ADD,
 	MODIFY = visualization_msgs::Marker::MODIFY,
@@ -41,10 +49,8 @@ public:
 
 private:
 	visualization_msgs::Marker buildMarker() const;
-	std_msgs::Header buildHeader() const;
-	geometry_msgs::Pose buildPose() const;
-	geometry_msgs::Vector3 buildScale() const;
-	std_msgs::ColorRGBA buildColor() const;
+	std_msgs::Header buildHeader(ros::Time stamp, std::string frame_id) const;
+	geometry_msgs::Pose buildPose(geometry_msgs::Point position, geometry_msgs::Quaternion orientation) const;
 };
 
 #endif

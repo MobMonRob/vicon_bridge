@@ -149,8 +149,11 @@ in Rviz ausprobieren
 ----------
 Aktuell:
 
-(12:20-)
 RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
+
+Standard Sachen initialisieren noch
+    ->was auskommentiert: Methode zur Konstruktion erstellen
+    ->Name ändern in BuildStandardMarker
 
 
 ----------
