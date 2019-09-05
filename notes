@@ -1,5 +1,8 @@
 Motion planning: OpenRave
-----------
+
+git alte Version temporär nutzen:
+https://makandracards.com/ff-it/21967-git-temporarily-revert-to-previous-commit
+
 Allgemeines zu ROS:
 https://www.generationrobots.com/blog/de/ros-robot-operating-system/
 
@@ -148,19 +151,14 @@ vicon_bridge Poses holen (statt Marker, was ich zuvor dachte und implementierte)
 in Rviz ausprobieren
     wie rviz anschließen?
     ---->funktioniert; aber: Oliver fragen, wie das im Endeffekt aussehen soll
+RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
+RvizMarkerBuilder Standard Sachen initialisieren noch
+    ->was auskommentiert: Methode zur Konstruktion erstellen
+    ->Name ändern in BuildStandardMarker
 
 
 ----------
 Aktuell:
-
-(09:25-) rviz wieder tuend machen
-    Konfiguration speichern
-
-RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
-
-Standard Sachen initialisieren noch
-    ->was auskommentiert: Methode zur Konstruktion erstellen
-    ->Name ändern in BuildStandardMarker
 
 
 ----------

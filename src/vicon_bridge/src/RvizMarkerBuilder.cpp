@@ -16,11 +16,9 @@ visualization_msgs::Marker RvizMarkerBuilder::convertViconPoseToRvizMarker(geome
 
 	marker.type = Type::SPHERE;
 	marker.header = pose_msg->header;
-	//marker.header.frame_id = "/rviz_frame";
-	//marker.ns = pose_msg->child_frame_id;
-	//marker.ns = "rviz_ns";
+	marker.ns = pose_msg->child_frame_id;
 
-	const geometry_msgs::Vector3& poseTranslation = pose_msg->transform.translation;
+	const geometry_msgs::Vector3 &poseTranslation = pose_msg->transform.translation;
 	marker.pose.position = buildPosition(poseTranslation.x, poseTranslation.y, poseTranslation.z);
 	marker.pose.orientation = pose_msg->transform.rotation;
 
@@ -43,8 +41,8 @@ visualization_msgs::Marker RvizMarkerBuilder::buildStandardMarker() const
 	marker.type = Type::SPHERE;							//object type
 	marker.action = Action::ADD;						//object action
 	marker.pose = buildPose(Point(), Quaternion());		//object pose
-	marker.scale = buildScale(1.0, 1.0, 1.0);			//object scale
-	marker.color = buildColor(0.0, 1.0, 1.0, 1.0);		//object color
+	marker.scale = buildScale(1.0, 0.1, 0.1);			//object scale
+	marker.color = buildColor(1.0, 0.0, 0.0, 1.0);		//object color //a muss auf 1.0 sein
 	marker.lifetime = ros::Duration(0, 0);				//How long the object should last before being automatically deleted. 0 means forever ->(sec, nsec)
 	marker.frame_locked = false;						//If this marker should be frame-locked, i.e. retransformed into its frame every timestep
 
@@ -72,7 +70,8 @@ geometry_msgs::Pose RvizMarkerBuilder::buildPose(Point position, Quaternion orie
 	return pose;
 }
 
-geometry_msgs::Point RvizMarkerBuilder::buildPosition(double x, double y, double z) const {
+geometry_msgs::Point RvizMarkerBuilder::buildPosition(double x, double y, double z) const
+{
 	Point position;
 
 	position.x = x;
@@ -82,7 +81,8 @@ geometry_msgs::Point RvizMarkerBuilder::buildPosition(double x, double y, double
 	return position;
 }
 
-geometry_msgs::Quaternion RvizMarkerBuilder::buildOrientation(double w, double x, double y, double z) const {
+geometry_msgs::Quaternion RvizMarkerBuilder::buildOrientation(double w, double x, double y, double z) const
+{
 	Quaternion orientation;
 
 	orientation.w = w;
@@ -93,7 +93,8 @@ geometry_msgs::Quaternion RvizMarkerBuilder::buildOrientation(double w, double x
 	return orientation;
 }
 
-geometry_msgs::Vector3 RvizMarkerBuilder::buildScale(double x, double y, double z) const {
+geometry_msgs::Vector3 RvizMarkerBuilder::buildScale(double x, double y, double z) const
+{
 	Vector3 scale;
 
 	scale.x = x;
@@ -103,7 +104,8 @@ geometry_msgs::Vector3 RvizMarkerBuilder::buildScale(double x, double y, double 
 	return scale;
 }
 
-std_msgs::ColorRGBA RvizMarkerBuilder::buildColor(float a, float r, float g, float b) const {
+std_msgs::ColorRGBA RvizMarkerBuilder::buildColor(float a, float r, float g, float b) const
+{
 	ColorRGBA color;
 
 	color.a = a;
@@ -113,4 +115,3 @@ std_msgs::ColorRGBA RvizMarkerBuilder::buildColor(float a, float r, float g, flo
 
 	return color;
 }
-
