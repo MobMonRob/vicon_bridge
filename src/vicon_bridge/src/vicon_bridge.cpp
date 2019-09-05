@@ -387,10 +387,19 @@ bool ViconReceiver::process_frame()
 			process_subjects(now_time - vicon_latency);
 		}
 
-		if (publish_markers_)
+		if (publish_markers_ || poseProcessor.has_value())
 		{
 			vicon_bridge::Markers markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
-			marker_pub_.publish(markers_msg);
+
+			if (poseProcessor.has_value())
+			{
+				poseProcessor->pushMarkers(markers_msg);
+			}
+
+			if (publish_markers_)
+			{
+				marker_pub_.publish(markers_msg);
+			}
 		}
 
 		lastTime = now_time;
@@ -456,12 +465,10 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 
 									if (poseProcessor.has_value())
 									{
-										poseProcessor->pushPoses(pose_msg);
+										poseProcessor->pushSegment(pose_msg);
 									}
-									else
-									{
-										seg.pub.publish(pose_msg);
-									}
+
+									seg.pub.publish(pose_msg);
 								}
 							}
 						}

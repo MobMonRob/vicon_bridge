@@ -5,6 +5,7 @@
 #include "geometry_msgs/TransformStamped.h"
 #include "geometry_msgs/Quaternion.h"
 #include "geometry_msgs/Point.h"
+#include "vicon_bridge/Markers.h"
 
 namespace Markerproperty
 {
@@ -44,6 +45,8 @@ public:
 	//Geht nicht wegen ros::Time::now() darf nicht aufgerufen werden, bevor das System initialisiert wurde
 	//static const visualization_msgs::Marker testMarker;
 
+	// Auslagern in Klasse zur Konvertierung
+	visualization_msgs::Marker convertViconMarkerToRvizMarker(const vicon_bridge::Marker &marker_msg) const;
 	visualization_msgs::Marker convertViconPoseToRvizMarker(geometry_msgs::TransformStampedPtr pose_msg) const;
 	visualization_msgs::Marker getTestMarker() const;
 

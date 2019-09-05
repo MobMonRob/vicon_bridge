@@ -1,30 +1,27 @@
 #include "ViconPoseProcessor.h"
 
 #include "visualization_msgs/MarkerArray.h"
+#include "ros/ros.h"
 
 ViconPoseProcessor::ViconPoseProcessor(const ros::Publisher &markerPublisher) : markerPublisher(markerPublisher), rvizMarkerBuilder() {}
 
-/*
 void ViconPoseProcessor::pushMarkers(const vicon_bridge::Markers &viconMarkers) const
 {
-	visualization_msgs::MarkerArray rvizMarkers;
-
 	//Vllt. in den RvizmarkerBuilder auslagern
-	for (const vicon_bridge::Marker &currentViconMarker : viconMarkers.markers)
+	//for (auto currentViconMarker : viconMarkers.markers)
+	for (size_t i; i < viconMarkers.markers.size(); ++i)
 	{
-		visualization_msgs::Marker currentrvizMarker; //= rvizMarkerBuilder.convertViconToRvizMarker(currentViconMarker);
-		currentrvizMarker.text = "aasdfasdfasdfasdfsdaa";
+		ROS_INFO("publish"); //viconMarcers sind leer?????? Warum???
+
+		vicon_bridge::Marker currentViconMarker = viconMarkers.markers[i];
+		visualization_msgs::Marker currentrvizMarker = rvizMarkerBuilder.convertViconMarkerToRvizMarker(currentViconMarker);
 
 		markerPublisher.publish(currentrvizMarker);
-		//rvizMarkers.markers.push_back(currentrvizMarker);
 	}
-
-	//markerPublisher.publish(rvizMarkers);
 }
-*/
 
-void ViconPoseProcessor::pushPoses(geometry_msgs::TransformStampedPtr pose_msg) const
+void ViconPoseProcessor::pushSegment(geometry_msgs::TransformStampedPtr pose_msg) const
 {
-	visualization_msgs::Marker rvizMarker = rvizMarkerBuilder.convertViconPoseToRvizMarker(pose_msg);
-	markerPublisher.publish(rvizMarker);
+	//visualization_msgs::Marker rvizMarker = rvizMarkerBuilder.convertViconPoseToRvizMarker(pose_msg);
+	//markerPublisher.publish(rvizMarker);
 }
