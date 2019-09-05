@@ -42,7 +42,7 @@ visualization_msgs::Marker RvizMarkerBuilder::buildStandardMarker() const
 	marker.action = Action::ADD;						//object action
 	marker.pose = buildPose(Point(), Quaternion());		//object pose
 	marker.scale = buildScale(1.0, 1.0, 1.0);			//object scale
-	marker.color = buildColor(1.0, 0.0, 1.0, 1.0);		//object color //a muss auf 1.0 sein
+	marker.color = buildColorRGB(0.0, 1.0, 1.0);			//object color
 	marker.lifetime = ros::Duration(0, 0);				//How long the object should last before being automatically deleted. 0 means forever ->(sec, nsec)
 	marker.frame_locked = false;						//If this marker should be frame-locked, i.e. retransformed into its frame every timestep
 
@@ -104,11 +104,11 @@ geometry_msgs::Vector3 RvizMarkerBuilder::buildScale(double x, double y, double 
 	return scale;
 }
 
-std_msgs::ColorRGBA RvizMarkerBuilder::buildColor(float a, float r, float g, float b) const
+std_msgs::ColorRGBA RvizMarkerBuilder::buildColorRGB(float r, float g, float b) const
 {
 	ColorRGBA color;
 
-	color.a = a;
+	color.a = 1.0;
 	color.r = r;
 	color.g = g;
 	color.b = b;

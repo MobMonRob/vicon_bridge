@@ -54,7 +54,7 @@ private:
 	geometry_msgs::Point buildPosition(double x, double y, double z) const;
 	geometry_msgs::Quaternion buildOrientation(double w, double x, double y, double z) const;
 	geometry_msgs::Vector3 buildScale(double x, double y, double z) const;
-	std_msgs::ColorRGBA buildColor(float a, float r, float g, float b) const;
+	std_msgs::ColorRGBA buildColorRGB(float r, float g, float b) const;
 };
 
 #endif

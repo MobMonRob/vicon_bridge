@@ -161,13 +161,14 @@ rviz verbessern
 ----------
 Aktuell:
 
+Doch Marker benutzen aus der vicon_bridge.
+    Dummy für Orientierung.
+ViconPoseProcessor umbenennen
+
 
 ----------
 Tun:
 
-
-Doch Marker benutzen aus der vicon_bridge.
-    Dummy für Orientierung.
 Später auch Segment-Daten holen zum Plotten von Verbindungen.
 Scale, Color im Launchfile konfigurieren
     Von vicon_bridge abschauen
