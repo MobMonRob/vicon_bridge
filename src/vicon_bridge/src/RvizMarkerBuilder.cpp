@@ -41,8 +41,8 @@ visualization_msgs::Marker RvizMarkerBuilder::buildStandardMarker() const
 	marker.type = Type::SPHERE;							//object type
 	marker.action = Action::ADD;						//object action
 	marker.pose = buildPose(Point(), Quaternion());		//object pose
-	marker.scale = buildScale(1.0, 0.1, 0.1);			//object scale
-	marker.color = buildColor(1.0, 0.0, 0.0, 1.0);		//object color //a muss auf 1.0 sein
+	marker.scale = buildScale(1.0, 1.0, 1.0);			//object scale
+	marker.color = buildColor(1.0, 0.0, 1.0, 1.0);		//object color //a muss auf 1.0 sein
 	marker.lifetime = ros::Duration(0, 0);				//How long the object should last before being automatically deleted. 0 means forever ->(sec, nsec)
 	marker.frame_locked = false;						//If this marker should be frame-locked, i.e. retransformed into its frame every timestep
 
