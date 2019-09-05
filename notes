@@ -97,6 +97,10 @@ Neues Konsolenfenster:
 //rostopic echo vicon/test1/test1
 rostopic echo vicon_rviz_marker
 
+rviz laufen lassen
+rosrun --debug rviz rviz
+
+
 ----------
 Getan:
 
@@ -149,6 +153,9 @@ in Rviz ausprobieren
 ----------
 Aktuell:
 
+(09:25-) rviz wieder tuend machen
+    Konfiguration speichern
+
 RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
 
 Standard Sachen initialisieren noch
@@ -166,7 +173,7 @@ Vielleicht tun:
 Skripte für bauen und zum starten erstellen
 RvizMarkerBuilder verbessern
 Zunächst alles, was in ros mehr macht als nur Logging, raus nehmen
-Alles ros Spezifische aus vicon_bridge raus nehmen
+Alles ros Spezifische aus vicon_bridge raus nehmen und dort insgesamt etwas aufräumen -> zu aufwändig gerade. Dauert villeicht 3*4h Arbeitstage
 vicon_bridge.cpp in vicon_receiver.cpp umbenennen (auch *.h)
 https://github.com/KumarRobotics/vicon/blob/master/vicon_driver/src/vicon_driver.cpp
 Oliver fragen, auf GitHub tun
@@ -209,6 +216,12 @@ return Taste klicken bei Nachfrage
 gdb Backtrace:
 bt
 ->return Taste, um mehr zu sehen
+
+
+----------
+Anderes:
+
+Pylon SWIG Projekt: Wo bei Netbeans die lib eingefügt wird, führt dazu, dass Systembibliotheken nicht mehr eingefügt werden. ->umgehen mit von Hand; oder Kommando suchen mit dem das geht; oder Ticket erstellen, ein solches Kommando einzufügen.
 
 
 ----------

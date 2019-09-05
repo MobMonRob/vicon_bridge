@@ -48,9 +48,14 @@ public:
 	visualization_msgs::Marker getTestMarker() const;
 
 private:
-	visualization_msgs::Marker buildMarker() const;
+	visualization_msgs::Marker buildStandardMarker() const;
 	std_msgs::Header buildHeader(ros::Time stamp, std::string frame_id) const;
 	geometry_msgs::Pose buildPose(geometry_msgs::Point position, geometry_msgs::Quaternion orientation) const;
+	geometry_msgs::Point buildPosition(double x, double y, double z) const;
+	geometry_msgs::Quaternion buildOrientation(double w, double x, double y, double z) const;
+	geometry_msgs::Vector3 buildScale(double x, double y, double z) const;
+	std_msgs::ColorRGBA buildColor(float a, float r, float g, float b) const;
 };
 
 #endif
+
