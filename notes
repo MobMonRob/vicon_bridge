@@ -155,12 +155,13 @@ RvizMarkerBuilder Konfiguration auf Methoden Parameter verlagern
 RvizMarkerBuilder Standard Sachen initialisieren noch
     ->was auskommentiert: Methode zur Konstruktion erstellen
     ->Name ändern in BuildStandardMarker
+rviz verbessern
 
 
 ----------
 Aktuell:
 
-(10:45-) rviz verbessern
+(11:15-) Meine Skripte zum starten konfigurieren
 
 
 ----------
@@ -171,18 +172,17 @@ Doch Marker benutzen aus der vicon_bridge.
     Dummy für Orientierung.
 Später auch Segment-Daten holen zum Plotten von Verbindungen.
 Scale, Color im Launchfile konfigurieren
+    Von vicon_bridge abschauen
 
 
 ----------
 Vielleicht tun:
 
-Skripte für bauen und zum starten erstellen
 RvizMarkerBuilder verbessern
 Zunächst alles, was in ros mehr macht als nur Logging, raus nehmen
 Alles ros Spezifische aus vicon_bridge raus nehmen und dort insgesamt etwas aufräumen -> zu aufwändig gerade. Dauert villeicht 3*4h Arbeitstage
 vicon_bridge.cpp in vicon_receiver.cpp umbenennen (auch *.h)
 https://github.com/KumarRobotics/vicon/blob/master/vicon_driver/src/vicon_driver.cpp
-Oliver fragen, auf GitHub tun
 
 
 ----------
@@ -234,9 +234,4 @@ Pylon SWIG Projekt: Wo bei Netbeans die lib eingefügt wird, führt dazu, dass S
 
 vicon API Dokumentation
 Vicon DataStream SDK alt: S. 60(65)
-
-
-
-Wenn Zeit habe: Silvan nochmal fragen: Er meinte, ich solle für Oliver was bauen, das sie Samplerate des vicon Systems ausliest und damit was macht.
-Oliver fragen, wie die Visualisierung in Rviz im Endeffekt aussehen soll
 
