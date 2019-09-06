@@ -7,74 +7,25 @@ using namespace geometry_msgs;
 using namespace std_msgs;
 using namespace Markerproperty;
 
-//Geht nicht wegen ros::Time::now() darf nicht aufgerufen werden, bevor das System initialisiert wurde
-//const visualization_msgs::Marker RvizMarkerBuilder::testMarker = RvizMarkerBuilder::buildMarker();
-
 visualization_msgs::Marker RvizMarkerBuilder::convertViconMarkerToRvizMarker(vicon_bridge::MarkersPtr viconMarkers) const
 {
-//kugeln draus machen
-//danach: alles standard, was geht
 	visualization_msgs::Marker marker;
-
-	marker.header.frame_id = "/world";
-	marker.header.stamp = ros::Time::now();
-	marker.ns = "points_and_lines";
-	marker.action = Action::ADD;
-	marker.pose.orientation.w = 1.0;
-
-	marker.id = 0;
+	marker = buildStandardMarker();
 
 	marker.type = Type::SPHERE_LIST;
+	marker.header = viconMarkers->header;
+	marker.header.frame_id = "/world";
 
-	marker.scale.x = 0.08;
-	marker.scale.y = 0.08;
-	marker.scale.z = 0.08;
+	marker.scale = buildScaleAllEqual(0.04);
+	marker.color = buildColorRGB(1.0, 0.0, 1.0);
 
-	marker.color.g = 1.0;
-	marker.color.a = 1.0;
-
-///*
 	for (auto currentViconMarker : viconMarkers->markers)
 	{
-		Point& currentTranslation = currentViconMarker.translation;
-		//marker.points.push_back(currentViconMarker.translation);
-		//points.points.push_back(buildPosition(1.0, 1.0, 1.0));
+		Point &currentTranslation = currentViconMarker.translation;
 		marker.points.push_back(buildPosition(currentTranslation.x / 400, currentTranslation.y / 400, currentTranslation.z / 400));
 	}
-//*/
-
 
 	return marker;
-
-
-	/*
-	visualization_msgs::Marker marker;
-	//marker = buildStandardMarker();
-
-	///////////////////////////////////////
-	marker.header.stamp = ros::Time::now();
-	marker.action = Action::ADD;
-	marker.pose.orientation.w = 1.0;
-	marker.id = 0;
-	marker.scale.x = 0.2;
-	marker.scale.y = 0.2;
-	marker.color.g = 1.0f;
-	marker.color.a = 1.0;
-
-	///////////////////////////////////////
-
-	marker.type = Type::POINTS;
-	//marker.header = viconMarkers->header;
-	marker.header.frame_id = "/world";
-	marker.ns = "/vicon_rviz_marker";
-
-	for (auto currentViconMarker : viconMarkers->markers)
-	{
-		marker.points.push_back(currentViconMarker.translation);
-	}
-
-	return marker;
-*/
 }
 
 visualization_msgs::Marker RvizMarkerBuilder::convertViconPoseToRvizMarker(geometry_msgs::TransformStampedPtr pose_msg) const
@@ -102,12 +53,12 @@ visualization_msgs::Marker RvizMarkerBuilder::buildStandardMarker() const
 	//http://wiki.ros.org/rviz/DisplayTypes/Marker
 	Marker marker; //primitve 3D shape
 
-	marker.header = buildHeader(ros::Time::now(), "0");						//Header for time/frame information
+	marker.header = buildHeader(ros::Time::now(), "/world");				//Header for time/frame information
 	marker.ns = "namespace";												//namespace ->identifier
 	marker.id = 0;															//object id
 	marker.type = Type::SPHERE;												//object type
 	marker.action = Action::ADD;											//object action
-	marker.pose = buildPose(Point(), buildOrientation(0.5, 0.5, 0.5, 0.5)); //object pose
+	marker.pose = buildPose(Point(), buildOrientation(1.0, 0.0, 0.0, 0.0)); //object pose
 	marker.scale = buildScale(1.0, 1.0, 1.0);								//object scale
 	marker.color = buildColorRGB(0.0, 1.0, 1.0);							//object color
 	marker.lifetime = ros::Duration(0, 0);									//How long the object should last before being automatically deleted. 0 means forever ->(sec, nsec)
@@ -158,6 +109,11 @@ geometry_msgs::Quaternion RvizMarkerBuilder::buildOrientation(double w, double x
 	orientation.z = z;
 
 	return orientation;
+}
+
+geometry_msgs::Vector3 RvizMarkerBuilder::buildScaleAllEqual(double xyz) const
+{
+	return buildScale(xyz, xyz, xyz);
 }
 
 geometry_msgs::Vector3 RvizMarkerBuilder::buildScale(double x, double y, double z) const

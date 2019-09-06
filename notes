@@ -167,33 +167,26 @@ Doch Marker benutzen aus der vicon_bridge.
     geht immer noch nicht.
         dieses Mal Pointer ausprobieren
         ->funktioniert
+ros zeigt marker nicht an beheben
+    die Daten gehen zu weit über die größe des angezeigten Raumes hinaus
+    Lösung: runterskalieren
+Aufräumen, testen
+    Alles super, Marker funktionieren nun gut
 
 
 ----------
 Aktuell:
 
-ros zeigt marker nicht an beheben
--->die Daten gehen zu weit über die größe des angezeigten Raumes hinaus
-
-
-rviz immer mehrere marker gleichzeitig geben
-->mit markier.id möglich
-MarkerArray möglich
-
-RvizMarkerBuilder: für verschiedene Typen von Markern muss man die Nachricht verschieden artig aufbauen.
-
-
 Mapping zwischen vicon Koordinaten und rviz Koordinaten.
-vicon: wahrscheinlich mm.
-rviz: nachschauen
-
+    vicon: wahrscheinlich mm. Definitiv angepasst auf die Kalibrierung.
+    rviz: nachschauen
 
 
 ----------
 Tun:
 
 ViconPoseProcessor umbenennen
-Später auch Segment-Daten holen zum Plotten von Verbindungen.
+Später auch Segment-Daten holen zum Plotten von Verbindungen. (Bieten Koordinatensystem pro Objekt) -> wie Koordinaten transformieren? rviz tf??
 Scale, Color im Launchfile konfigurieren
     Von vicon_bridge abschauen
 
@@ -201,6 +194,8 @@ Scale, Color im Launchfile konfigurieren
 ----------
 Vielleicht tun:
 
+Klassenstruktur anpassen
+RvizMarkerBuilder: für verschiedene Typen von Markern muss man die Nachricht verschieden artig aufbauen.
 RvizMarkerBuilder verbessern
 Zunächst alles, was in ros mehr macht als nur Logging, raus nehmen
 Alles ros Spezifische aus vicon_bridge raus nehmen und dort insgesamt etwas aufräumen -> zu aufwändig gerade. Dauert villeicht 3*4h Arbeitstage
@@ -228,6 +223,13 @@ MarkerBuilder:
 
 vicon_bridge (->vicon_receiver): holt Daten von vicon
 Builder Bridge Kleber: holt die Daten von der Bridge und gibt sie dem Builder
+
+
+----------
+Erkenntnisse:
+
+visualization_msgs::Marker id ermöglicht manipulation von mehrern Objekten
+Type::SPHERE_LIST ist schneller als MarkerArray, aber weniger flexibel
 
 
 ----------

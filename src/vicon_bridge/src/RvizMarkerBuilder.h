@@ -42,9 +42,6 @@ enum Markerproperty::Action : uint8_t
 class RvizMarkerBuilder
 {
 public:
-	//Geht nicht wegen ros::Time::now() darf nicht aufgerufen werden, bevor das System initialisiert wurde
-	//static const visualization_msgs::Marker testMarker;
-
 	// Auslagern in Klasse zur Konvertierung
 	visualization_msgs::Marker convertViconMarkerToRvizMarker(vicon_bridge::MarkersPtr viconMarkers) const;
 	visualization_msgs::Marker convertViconPoseToRvizMarker(geometry_msgs::TransformStampedPtr pose_msg) const;
@@ -56,6 +53,7 @@ private:
 	geometry_msgs::Pose buildPose(geometry_msgs::Point position, geometry_msgs::Quaternion orientation) const;
 	geometry_msgs::Point buildPosition(double x, double y, double z) const;
 	geometry_msgs::Quaternion buildOrientation(double w, double x, double y, double z) const;
+	geometry_msgs::Vector3 buildScaleAllEqual(double xyz) const;
 	geometry_msgs::Vector3 buildScale(double x, double y, double z) const;
 	std_msgs::ColorRGBA buildColorRGB(float r, float g, float b) const;
 };
