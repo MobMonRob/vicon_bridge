@@ -13,44 +13,25 @@ using namespace Markerproperty;
 visualization_msgs::Marker RvizMarkerBuilder::convertViconMarkerToRvizMarker(vicon_bridge::MarkersPtr viconMarkers) const
 {
 //kugeln draus machen
+//danach: alles standard, was geht
 	visualization_msgs::Marker marker;
 
-	visualization_msgs::Marker points;
-	points.header.frame_id = "/world";
-	points.header.stamp = ros::Time::now();
-	points.ns = "points_and_lines";
-	points.action = Action::ADD;
-	points.pose.orientation.w = 1.0;
+	marker.header.frame_id = "/world";
+	marker.header.stamp = ros::Time::now();
+	marker.ns = "points_and_lines";
+	marker.action = Action::ADD;
+	marker.pose.orientation.w = 1.0;
 
-	points.id = 0;
+	marker.id = 0;
 
-	points.type = Type::POINTS;
+	marker.type = Type::SPHERE_LIST;
 
-	// POINTS markers use x and y scale for width/height respectively
-	points.scale.x = 0.5;
-	points.scale.y = 0.5;
+	marker.scale.x = 0.08;
+	marker.scale.y = 0.08;
+	marker.scale.z = 0.08;
 
-	// Points are green
-	points.color.g = 1.0f;
-	points.color.a = 1.0;
-
-	points.lifetime = ros::Duration(0.5);
-
-/*
-	// Create the vertices for the points and lines
-	for (uint32_t i = 0; i < 100; ++i)
-	{
-		float y = 5 * sin(1.0 + i / 100.0f * 2 * M_PI);
-		float z = 5 * cos(1.0 + i / 100.0f * 2 * M_PI);
-
-		geometry_msgs::Point p;
-		p.x = (int32_t)i - 50;
-		p.y = y;
-		p.z = z;
-
-		points.points.push_back(p);
-	}
-*/
+	marker.color.g = 1.0;
+	marker.color.a = 1.0;
 
 ///*
 	for (auto currentViconMarker : viconMarkers->markers)
@@ -58,12 +39,12 @@ visualization_msgs::Marker RvizMarkerBuilder::convertViconMarkerToRvizMarker(vic
 		Point& currentTranslation = currentViconMarker.translation;
 		//marker.points.push_back(currentViconMarker.translation);
 		//points.points.push_back(buildPosition(1.0, 1.0, 1.0));
-		points.points.push_back(buildPosition(currentTranslation.x / 300, currentTranslation.y / 300, currentTranslation.z / 300));
+		marker.points.push_back(buildPosition(currentTranslation.x / 400, currentTranslation.y / 400, currentTranslation.z / 400));
 	}
 //*/
 
 
-	return points;
+	return marker;
 
 
 	/*

@@ -183,6 +183,12 @@ MarkerArray möglich
 RvizMarkerBuilder: für verschiedene Typen von Markern muss man die Nachricht verschieden artig aufbauen.
 
 
+Mapping zwischen vicon Koordinaten und rviz Koordinaten.
+vicon: wahrscheinlich mm.
+rviz: nachschauen
+
+
+
 ----------
 Tun:
 
