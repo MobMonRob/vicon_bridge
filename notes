@@ -168,25 +168,25 @@ Doch Marker benutzen aus der vicon_bridge.
         dieses Mal Pointer ausprobieren
         ->funktioniert
 ros zeigt marker nicht an beheben
-    die Daten gehen zu weit über die größe des angezeigten Raumes hinaus
+    die Daten gehen zu weit über die Größe des angezeigten Raumes hinaus
     Lösung: runterskalieren
 Aufräumen, testen
     Alles super, Marker funktionieren nun gut
+Mapping zwischen vicon Koordinaten und rviz Koordinaten.
+    vicon: wahrscheinlich mm. Definitiv angepasst auf die Kalibrierung.
+    rviz: m
 
 
 ----------
 Aktuell:
-
-Mapping zwischen vicon Koordinaten und rviz Koordinaten.
-    vicon: wahrscheinlich mm. Definitiv angepasst auf die Kalibrierung.
-    rviz: nachschauen
 
 
 ----------
 Tun:
 
 ViconPoseProcessor umbenennen
-Später auch Segment-Daten holen zum Plotten von Verbindungen. (Bieten Koordinatensystem pro Objekt) -> wie Koordinaten transformieren? rviz tf??
+Später auch Segment-Daten holen zum Plotten von Verbindungen. (Bieten Koordinatensystem pro Objekt) -> wie Koordinaten transformieren? rviz tf2??
+tf2 für eigentliche Transformation später
 Scale, Color im Launchfile konfigurieren
     Von vicon_bridge abschauen
 
@@ -230,6 +230,10 @@ Erkenntnisse:
 
 visualization_msgs::Marker id ermöglicht manipulation von mehrern Objekten
 Type::SPHERE_LIST ist schneller als MarkerArray, aber weniger flexibel
+
+vicon misst mit 1mm
+rviz misst mit 1m
+->nachgemessen: mit 20 cm Lineal und Umrechung im Programm
 
 
 ----------

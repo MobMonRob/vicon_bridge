@@ -16,13 +16,13 @@ visualization_msgs::Marker RvizMarkerBuilder::convertViconMarkerToRvizMarker(vic
 	marker.header = viconMarkers->header;
 	marker.header.frame_id = "/world";
 
-	marker.scale = buildScaleAllEqual(0.04);
+	marker.scale = buildScaleAllEqual(0.02); //Scale abhängig von Position -> Position wird geteilt führt zu Kugeln kommen enger aneinander
 	marker.color = buildColorRGB(1.0, 0.0, 1.0);
 
 	for (auto currentViconMarker : viconMarkers->markers)
 	{
 		Point &currentTranslation = currentViconMarker.translation;
-		marker.points.push_back(buildPosition(currentTranslation.x / 400, currentTranslation.y / 400, currentTranslation.z / 400));
+		marker.points.push_back(buildPosition(currentTranslation.x / 1000, currentTranslation.y / 1000, currentTranslation.z / 1000));
 	}
 
 	return marker;
