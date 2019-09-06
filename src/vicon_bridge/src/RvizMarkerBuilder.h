@@ -11,7 +11,7 @@ namespace Markerproperty
 {
 enum Type : uint8_t;
 enum Action : uint8_t;
-} // namespace Markerproperty
+}
 
 //http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 enum Markerproperty::Type : uint8_t

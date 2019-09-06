@@ -67,7 +67,6 @@ visualization_msgs::Marker RvizMarkerBuilder::buildStandardMarker() const
 	return marker;
 }
 
-//frame_id: 0:none, 1:global
 std_msgs::Header RvizMarkerBuilder::buildHeader(ros::Time stamp, std::string frame_id) const
 {
 	Header header;
