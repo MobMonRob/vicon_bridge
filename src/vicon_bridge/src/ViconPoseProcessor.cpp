@@ -7,12 +7,8 @@ ViconPoseProcessor::ViconPoseProcessor(const ros::Publisher &markerPublisher) : 
 
 void ViconPoseProcessor::pushMarkers(vicon_bridge::MarkersPtr viconMarkers) const
 {
-	//Vllt. in den RvizmarkerBuilder auslagern
-	for (auto marker : viconMarkers->markers)
-	{
-		visualization_msgs::Marker currentrvizMarker = rvizMarkerBuilder.convertViconMarkerToRvizMarker(marker);
-		markerPublisher.publish(currentrvizMarker);
-	}
+	visualization_msgs::Marker rvizMarker = rvizMarkerBuilder.convertViconMarkerToRvizMarker(viconMarkers);
+	markerPublisher.publish(rvizMarker);
 }
 
 void ViconPoseProcessor::pushSegment(geometry_msgs::TransformStampedPtr pose_msg) const

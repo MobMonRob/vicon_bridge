@@ -46,7 +46,7 @@ public:
 	//static const visualization_msgs::Marker testMarker;
 
 	// Auslagern in Klasse zur Konvertierung
-	visualization_msgs::Marker convertViconMarkerToRvizMarker(const vicon_bridge::Marker &marker_msg) const;
+	visualization_msgs::Marker convertViconMarkerToRvizMarker(vicon_bridge::MarkersPtr viconMarkers) const;
 	visualization_msgs::Marker convertViconPoseToRvizMarker(geometry_msgs::TransformStampedPtr pose_msg) const;
 	visualization_msgs::Marker getTestMarker() const;
 

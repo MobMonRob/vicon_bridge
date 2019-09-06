@@ -101,7 +101,8 @@ Neues Konsolenfenster:
 rostopic echo vicon_rviz_marker
 
 rviz laufen lassen
-rosrun --debug rviz rviz
+//--debug
+rosrun rviz rviz
 
 
 ----------
@@ -157,23 +158,29 @@ RvizMarkerBuilder Standard Sachen initialisieren noch
     ->Name ändern in BuildStandardMarker
 rviz verbessern
 Mit Oliver weiteres Vorgehen klären
+Doch Marker benutzen aus der vicon_bridge.
+    Dummy für Orientierung.
+    Warum sind Markers leer?
+    geht schon in process_markers nicht. (letztes return)
+        rostopic echo /vicon/markers/ geht aber
+        Ursache: if (marker_pub_.getNumSubscribers() > 0)
+    geht immer noch nicht.
+        dieses Mal Pointer ausprobieren
+        ->funktioniert
 
 
 ----------
 Aktuell:
 
-(09:20)
-Doch Marker benutzen aus der vicon_bridge.
-    Dummy für Orientierung.
+ros zeigt marker nicht an beheben
+-->die Daten gehen zu weit über die größe des angezeigten Raumes hinaus
 
-Warum sind Markers leer? Pointer ausprobieren.
-geht schon in process_markers nicht. (letztes return)
-rostopic echo /vicon/markers/ geht aber
-Ursache: if (marker_pub_.getNumSubscribers() > 0)
 
-geht immer noch nicht.
-dieses Mal Pointer ausprobieren
+rviz immer mehrere marker gleichzeitig geben
+->mit markier.id möglich
+MarkerArray möglich
 
+RvizMarkerBuilder: für verschiedene Typen von Markern muss man die Nachricht verschieden artig aufbauen.
 
 
 ----------
