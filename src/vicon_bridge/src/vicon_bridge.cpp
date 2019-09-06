@@ -502,7 +502,7 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 
 vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
 {
-	if (marker_pub_.getNumSubscribers() > 0)
+	if ((marker_pub_.getNumSubscribers() > 0) || poseProcessor.has_value())
 	{
 		if (not marker_data_enabled)
 		{

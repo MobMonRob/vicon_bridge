@@ -144,7 +144,7 @@ RvizMarkerBuilder bekommt die Daten von ViconMarkersProcessor und hat seine Konf
 Array zu Marker und wieder zurück
 CMake include Fehler beheben
 !!!Seltsamen Bug umgangen: Markers dürfen nicht von Methoden zurück gegeben werden weil sonst segfault
-    falsch!!!! Eigentlich habe ich nur ein return bei einer Methode vergessen. Der Compiler hat das aber nicht bemängelt.
+    falsch!!!! Eigentlich habe ich nur ein fehlendes return bei einer Methode übersehen (das schon zuvor nicht da war; gab aber erst durch Äderung des Codes Probleme). Der Compiler hat das aber nicht bemängelt.
     ->dauerhaft verhindert, in dem in CMakeLists.txt Compiler Warnungen aktiviert habe
 Daten zurück geben geht nicht beheben
 vicon_bridge Poses holen (statt Marker, was ich zuvor dachte und implementierte)
@@ -156,22 +156,30 @@ RvizMarkerBuilder Standard Sachen initialisieren noch
     ->was auskommentiert: Methode zur Konstruktion erstellen
     ->Name ändern in BuildStandardMarker
 rviz verbessern
+Mit Oliver weiteres Vorgehen klären
 
 
 ----------
 Aktuell:
 
+(09:20)
 Doch Marker benutzen aus der vicon_bridge.
     Dummy für Orientierung.
 
---->Warum sind Markers leer? Pointer ausprobieren.
+Warum sind Markers leer? Pointer ausprobieren.
+geht schon in process_markers nicht. (letztes return)
+rostopic echo /vicon/markers/ geht aber
+Ursache: if (marker_pub_.getNumSubscribers() > 0)
 
-ViconPoseProcessor umbenennen
+geht immer noch nicht.
+dieses Mal Pointer ausprobieren
+
 
 
 ----------
 Tun:
 
+ViconPoseProcessor umbenennen
 Später auch Segment-Daten holen zum Plotten von Verbindungen.
 Scale, Color im Launchfile konfigurieren
     Von vicon_bridge abschauen
@@ -188,7 +196,7 @@ https://github.com/KumarRobotics/vicon/blob/master/vicon_driver/src/vicon_driver
 
 
 ----------
-Klassenstruktur:
+Klassenstruktur künftig Ideen:
 
 Main: hat einen NodeStarter, dem der ViconRvizNode übergeben wird
 NodeStarter: enthält Boiler Plate, um Nodes auszuführen, polymorph
