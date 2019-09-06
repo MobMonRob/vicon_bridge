@@ -10,7 +10,7 @@ class ViconPoseProcessor
 {
 public:
 	ViconPoseProcessor(const ros::Publisher &markerPublisher);
-	void pushMarkers(const vicon_bridge::Markers &markers_msg) const;
+	void pushMarkers(vicon_bridge::MarkersPtr markers_msg) const;
 	void pushSegment(geometry_msgs::TransformStampedPtr pose_msg) const;
 
 private:

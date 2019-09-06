@@ -389,7 +389,7 @@ bool ViconReceiver::process_frame()
 
 		if ((publish_markers_ && (marker_pub_.getNumSubscribers() > 0)) || (poseProcessor.has_value()))
 		{
-			vicon_bridge::Markers markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
+			vicon_bridge::MarkersPtr markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
 
 			if (poseProcessor.has_value())
 			{
@@ -500,7 +500,7 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 	cnt++;
 }
 
-vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
+vicon_bridge::MarkersPtr ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
 {
 	if (not marker_data_enabled)
 	{
@@ -515,9 +515,9 @@ vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time
 		unlabeled_marker_data_enabled = true;
 	}
 	n_markers = 0;
-	vicon_bridge::Markers markers_msg;
-	markers_msg.header.stamp = frame_time;
-	markers_msg.frame_number = vicon_frame_num;
+	vicon_bridge::MarkersPtr markers_msg(new vicon_bridge::Markers());
+	markers_msg->header.stamp = frame_time;
+	markers_msg->frame_number = vicon_frame_num;
 	// Count the number of subjects
 	unsigned int SubjectCount = msvcbridge::GetSubjectCount().SubjectCount;
 	// Get labeled markers
@@ -544,7 +544,7 @@ vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time
 			this_marker.translation.z = _Output_GetMarkerGlobalTranslation.Translation[2];
 			this_marker.occluded = _Output_GetMarkerGlobalTranslation.Occluded;
 
-			markers_msg.markers.push_back(this_marker);
+			markers_msg->markers.push_back(this_marker);
 		}
 	}
 	// get unlabeled markers
@@ -565,7 +565,7 @@ vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time
 			this_marker.translation.y = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[1];
 			this_marker.translation.z = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[2];
 			this_marker.occluded = false; // unlabeled markers can't be occluded
-			markers_msg.markers.push_back(this_marker);
+			markers_msg->markers.push_back(this_marker);
 		}
 		else
 		{
