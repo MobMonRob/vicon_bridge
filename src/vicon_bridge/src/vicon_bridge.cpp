@@ -387,7 +387,7 @@ bool ViconReceiver::process_frame()
 			process_subjects(now_time - vicon_latency);
 		}
 
-		if (publish_markers_ || poseProcessor.has_value())
+		if ((publish_markers_ && (marker_pub_.getNumSubscribers() > 0)) || (poseProcessor.has_value()))
 		{
 			vicon_bridge::Markers markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
 
@@ -396,7 +396,7 @@ bool ViconReceiver::process_frame()
 				poseProcessor->pushMarkers(markers_msg);
 			}
 
-			if (publish_markers_)
+			if (publish_markers_ && (marker_pub_.getNumSubscribers() > 0))
 			{
 				marker_pub_.publish(markers_msg);
 			}
@@ -502,84 +502,79 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 
 vicon_bridge::Markers ViconReceiver::process_markers(const ros::Time &frame_time, unsigned int vicon_frame_num)
 {
-	if ((marker_pub_.getNumSubscribers() > 0) || poseProcessor.has_value())
+	if (not marker_data_enabled)
 	{
-		if (not marker_data_enabled)
+		msvcbridge::EnableMarkerData();
+		ROS_ASSERT(msvcbridge::IsMarkerDataEnabled().Enabled);
+		marker_data_enabled = true;
+	}
+	if (not unlabeled_marker_data_enabled)
+	{
+		msvcbridge::EnableUnlabeledMarkerData();
+		ROS_ASSERT(msvcbridge::IsUnlabeledMarkerDataEnabled().Enabled);
+		unlabeled_marker_data_enabled = true;
+	}
+	n_markers = 0;
+	vicon_bridge::Markers markers_msg;
+	markers_msg.header.stamp = frame_time;
+	markers_msg.frame_number = vicon_frame_num;
+	// Count the number of subjects
+	unsigned int SubjectCount = msvcbridge::GetSubjectCount().SubjectCount;
+	// Get labeled markers
+	for (unsigned int SubjectIndex = 0; SubjectIndex < SubjectCount; ++SubjectIndex)
+	{
+		std::string this_subject_name = msvcbridge::GetSubjectName(SubjectIndex).SubjectName;
+		// Count the number of markers
+		unsigned int num_subject_markers = msvcbridge::GetMarkerCount(this_subject_name).MarkerCount;
+		n_markers += num_subject_markers;
+		//std::cout << "    Markers (" << MarkerCount << "):" << std::endl;
+		for (unsigned int MarkerIndex = 0; MarkerIndex < num_subject_markers; ++MarkerIndex)
 		{
-			msvcbridge::EnableMarkerData();
-			ROS_ASSERT(msvcbridge::IsMarkerDataEnabled().Enabled);
-			marker_data_enabled = true;
-		}
-		if (not unlabeled_marker_data_enabled)
-		{
-			msvcbridge::EnableUnlabeledMarkerData();
-			ROS_ASSERT(msvcbridge::IsUnlabeledMarkerDataEnabled().Enabled);
-			unlabeled_marker_data_enabled = true;
-		}
-		n_markers = 0;
-		vicon_bridge::Markers markers_msg;
-		markers_msg.header.stamp = frame_time;
-		markers_msg.frame_number = vicon_frame_num;
-		// Count the number of subjects
-		unsigned int SubjectCount = msvcbridge::GetSubjectCount().SubjectCount;
-		// Get labeled markers
-		for (unsigned int SubjectIndex = 0; SubjectIndex < SubjectCount; ++SubjectIndex)
-		{
-			std::string this_subject_name = msvcbridge::GetSubjectName(SubjectIndex).SubjectName;
-			// Count the number of markers
-			unsigned int num_subject_markers = msvcbridge::GetMarkerCount(this_subject_name).MarkerCount;
-			n_markers += num_subject_markers;
-			//std::cout << "    Markers (" << MarkerCount << "):" << std::endl;
-			for (unsigned int MarkerIndex = 0; MarkerIndex < num_subject_markers; ++MarkerIndex)
-			{
-				vicon_bridge::Marker this_marker;
-				this_marker.marker_name = msvcbridge::GetMarkerName(this_subject_name, MarkerIndex).MarkerName;
-				this_marker.subject_name = this_subject_name;
-				this_marker.segment_name = msvcbridge::GetMarkerParentName(this_subject_name, this_marker.marker_name).SegmentName;
+			vicon_bridge::Marker this_marker;
+			this_marker.marker_name = msvcbridge::GetMarkerName(this_subject_name, MarkerIndex).MarkerName;
+			this_marker.subject_name = this_subject_name;
+			this_marker.segment_name = msvcbridge::GetMarkerParentName(this_subject_name, this_marker.marker_name).SegmentName;
 
-				// Get the global marker translation
-				Output_GetMarkerGlobalTranslation _Output_GetMarkerGlobalTranslation =
-					msvcbridge::GetMarkerGlobalTranslation(this_subject_name, this_marker.marker_name);
-
-				this_marker.translation.x = _Output_GetMarkerGlobalTranslation.Translation[0];
-				this_marker.translation.y = _Output_GetMarkerGlobalTranslation.Translation[1];
-				this_marker.translation.z = _Output_GetMarkerGlobalTranslation.Translation[2];
-				this_marker.occluded = _Output_GetMarkerGlobalTranslation.Occluded;
-
-				markers_msg.markers.push_back(this_marker);
-			}
-		}
-		// get unlabeled markers
-		unsigned int UnlabeledMarkerCount = msvcbridge::GetUnlabeledMarkerCount().MarkerCount;
-		//ROS_INFO("# unlabeled markers: %d", UnlabeledMarkerCount);
-		n_markers += UnlabeledMarkerCount;
-		n_unlabeled_markers = UnlabeledMarkerCount;
-		for (unsigned int UnlabeledMarkerIndex = 0; UnlabeledMarkerIndex < UnlabeledMarkerCount; ++UnlabeledMarkerIndex)
-		{
 			// Get the global marker translation
-			Output_GetUnlabeledMarkerGlobalTranslation _Output_GetUnlabeledMarkerGlobalTranslation =
-				msvcbridge::GetUnlabeledMarkerGlobalTranslation(UnlabeledMarkerIndex);
+			Output_GetMarkerGlobalTranslation _Output_GetMarkerGlobalTranslation =
+				msvcbridge::GetMarkerGlobalTranslation(this_subject_name, this_marker.marker_name);
 
-			if (_Output_GetUnlabeledMarkerGlobalTranslation.Result == Result::Success)
-			{
-				vicon_bridge::Marker this_marker;
-				this_marker.translation.x = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[0];
-				this_marker.translation.y = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[1];
-				this_marker.translation.z = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[2];
-				this_marker.occluded = false; // unlabeled markers can't be occluded
-				markers_msg.markers.push_back(this_marker);
-			}
-			else
-			{
-				ROS_WARN("GetUnlabeledMarkerGlobalTranslation failed (result = %s)",
-						 Adapt(_Output_GetUnlabeledMarkerGlobalTranslation.Result).c_str());
-			}
+			this_marker.translation.x = _Output_GetMarkerGlobalTranslation.Translation[0];
+			this_marker.translation.y = _Output_GetMarkerGlobalTranslation.Translation[1];
+			this_marker.translation.z = _Output_GetMarkerGlobalTranslation.Translation[2];
+			this_marker.occluded = _Output_GetMarkerGlobalTranslation.Occluded;
+
+			markers_msg.markers.push_back(this_marker);
 		}
+	}
+	// get unlabeled markers
+	unsigned int UnlabeledMarkerCount = msvcbridge::GetUnlabeledMarkerCount().MarkerCount;
+	//ROS_INFO("# unlabeled markers: %d", UnlabeledMarkerCount);
+	n_markers += UnlabeledMarkerCount;
+	n_unlabeled_markers = UnlabeledMarkerCount;
+	for (unsigned int UnlabeledMarkerIndex = 0; UnlabeledMarkerIndex < UnlabeledMarkerCount; ++UnlabeledMarkerIndex)
+	{
+		// Get the global marker translation
+		Output_GetUnlabeledMarkerGlobalTranslation _Output_GetUnlabeledMarkerGlobalTranslation =
+			msvcbridge::GetUnlabeledMarkerGlobalTranslation(UnlabeledMarkerIndex);
 
-		return markers_msg;
+		if (_Output_GetUnlabeledMarkerGlobalTranslation.Result == Result::Success)
+		{
+			vicon_bridge::Marker this_marker;
+			this_marker.translation.x = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[0];
+			this_marker.translation.y = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[1];
+			this_marker.translation.z = _Output_GetUnlabeledMarkerGlobalTranslation.Translation[2];
+			this_marker.occluded = false; // unlabeled markers can't be occluded
+			markers_msg.markers.push_back(this_marker);
+		}
+		else
+		{
+			ROS_WARN("GetUnlabeledMarkerGlobalTranslation failed (result = %s)",
+					 Adapt(_Output_GetUnlabeledMarkerGlobalTranslation.Result).c_str());
+		}
 	}
 
-	return vicon_bridge::Markers();
+	return markers_msg;
 }
 
 bool ViconReceiver::grabPoseCallback(vicon_bridge::viconGrabPose::Request &req, vicon_bridge::viconGrabPose::Response &resp)
