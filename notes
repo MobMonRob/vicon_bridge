@@ -175,6 +175,7 @@ Aufräumen, testen
 Mapping zwischen vicon Koordinaten und rviz Koordinaten.
     vicon: wahrscheinlich mm. Definitiv angepasst auf die Kalibrierung.
     rviz: m
+currentTranslation.x / 1000 -->1000 soll Namen bekommen in static const, damit man versteht, warum das so ist
 
 
 ----------
@@ -185,6 +186,7 @@ Aktuell:
 Tun:
 
 ViconPoseProcessor umbenennen
+Mit fake Daten ausprobieren?
 Später auch Segment-Daten holen zum Plotten von Verbindungen. (Bieten Koordinatensystem pro Objekt) -> wie Koordinaten transformieren? rviz tf2??
 tf2 für eigentliche Transformation später
 Scale, Color im Launchfile konfigurieren
@@ -198,7 +200,7 @@ Klassenstruktur anpassen
 RvizMarkerBuilder: für verschiedene Typen von Markern muss man die Nachricht verschieden artig aufbauen.
 RvizMarkerBuilder verbessern
 Zunächst alles, was in ros mehr macht als nur Logging, raus nehmen
-Alles ros Spezifische aus vicon_bridge raus nehmen und dort insgesamt etwas aufräumen -> zu aufwändig gerade. Dauert villeicht 3*4h Arbeitstage
+Alles ros Spezifische aus vicon_bridge raus nehmen und dort insgesamt etwas aufräumen -> zu aufwändig gerade. Dauert vielleicht 3*4h Arbeitstage
 vicon_bridge.cpp in vicon_receiver.cpp umbenennen (auch *.h)
 https://github.com/KumarRobotics/vicon/blob/master/vicon_driver/src/vicon_driver.cpp
 

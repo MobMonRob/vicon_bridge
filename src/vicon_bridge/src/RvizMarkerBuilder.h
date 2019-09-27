@@ -11,7 +11,7 @@ namespace Markerproperty
 {
 enum Type : uint8_t;
 enum Action : uint8_t;
-}
+} // namespace Markerproperty
 
 //http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 enum Markerproperty::Type : uint8_t
@@ -51,6 +51,7 @@ private:
 	visualization_msgs::Marker buildStandardMarker() const;
 	std_msgs::Header buildHeader(ros::Time stamp, std::string frame_id) const;
 	geometry_msgs::Pose buildPose(geometry_msgs::Point position, geometry_msgs::Quaternion orientation) const;
+	geometry_msgs::Point viconPositionToRvizPosition(const geometry_msgs::Point &viconPosition) const;
 	geometry_msgs::Point buildPosition(double x, double y, double z) const;
 	geometry_msgs::Quaternion buildOrientation(double w, double x, double y, double z) const;
 	geometry_msgs::Vector3 buildScaleAllEqual(double xyz) const;

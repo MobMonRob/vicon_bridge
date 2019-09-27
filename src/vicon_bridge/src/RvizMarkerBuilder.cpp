@@ -16,13 +16,12 @@ visualization_msgs::Marker RvizMarkerBuilder::convertViconMarkersToRvizMarker(vi
 	marker.header = viconMarkers->header;
 	marker.header.frame_id = "/world";
 
-	marker.scale = buildScaleAllEqual(0.02); //Scale abhängig von Position -> Position wird geteilt führt zu Kugeln kommen enger aneinander
+	marker.scale = buildScaleAllEqual(0.02);
 	marker.color = buildColorRGB(1.0, 0.0, 1.0);
 
 	for (auto currentViconMarker : viconMarkers->markers)
 	{
-		Point &currentTranslation = currentViconMarker.translation;
-		marker.points.push_back(buildPosition(currentTranslation.x / 1000, currentTranslation.y / 1000, currentTranslation.z / 1000));
+		marker.points.push_back(viconPositionToRvizPosition(currentViconMarker.translation));
 	}
 
 	return marker;
@@ -85,6 +84,14 @@ geometry_msgs::Pose RvizMarkerBuilder::buildPose(Point position, Quaternion orie
 	pose.orientation = orientation;
 
 	return pose;
+}
+
+geometry_msgs::Point RvizMarkerBuilder::viconPositionToRvizPosition(const geometry_msgs::Point &viconPosition) const
+{
+	static const uint32_t viconMillimetreToRvizMetreFactor = 1000;
+	static const uint32_t& f = viconMillimetreToRvizMetreFactor;
+
+	return buildPosition(viconPosition.x / f, viconPosition.y / f, viconPosition.z / f);
 }
 
 geometry_msgs::Point RvizMarkerBuilder::buildPosition(double x, double y, double z) const
