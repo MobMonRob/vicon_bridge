@@ -89,7 +89,7 @@ geometry_msgs::Pose RvizMarkerBuilder::buildPose(Point position, Quaternion orie
 geometry_msgs::Point RvizMarkerBuilder::viconPositionToRvizPosition(const geometry_msgs::Point &viconPosition) const
 {
 	static const uint32_t viconMillimetreToRvizMetreFactor = 1000;
-	static const uint32_t& f = viconMillimetreToRvizMetreFactor;
+	static const uint32_t &f = viconMillimetreToRvizMetreFactor;
 
 	return buildPosition(viconPosition.x / f, viconPosition.y / f, viconPosition.z / f);
 }
