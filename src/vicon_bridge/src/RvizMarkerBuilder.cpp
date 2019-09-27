@@ -7,7 +7,7 @@ using namespace geometry_msgs;
 using namespace std_msgs;
 using namespace Markerproperty;
 
-visualization_msgs::Marker RvizMarkerBuilder::convertViconMarkerToRvizMarker(vicon_bridge::MarkersPtr viconMarkers) const
+visualization_msgs::Marker RvizMarkerBuilder::convertViconMarkersToRvizMarker(vicon_bridge::MarkersPtr viconMarkers) const
 {
 	visualization_msgs::Marker marker;
 	marker = buildStandardMarker();

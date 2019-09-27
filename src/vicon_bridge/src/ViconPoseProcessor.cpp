@@ -7,7 +7,7 @@ ViconPoseProcessor::ViconPoseProcessor(const ros::Publisher &markerPublisher) : 
 
 void ViconPoseProcessor::pushMarkers(vicon_bridge::MarkersPtr viconMarkers) const
 {
-	visualization_msgs::Marker rvizMarker = rvizMarkerBuilder.convertViconMarkerToRvizMarker(viconMarkers);
+	visualization_msgs::Marker rvizMarker = rvizMarkerBuilder.convertViconMarkersToRvizMarker(viconMarkers);
 	markerPublisher.publish(rvizMarker);
 }
 
