@@ -1,6 +1,8 @@
 #include "RvizMarkerBuilder.h"
 
 #include <cstdint>
+#include "ros/node_handle.h"
+#include "ros/macros.h"
 
 using namespace visualization_msgs;
 using namespace geometry_msgs;
@@ -16,7 +18,10 @@ visualization_msgs::Marker RvizMarkerBuilder::convertViconMarkersToRvizMarker(vi
 	marker.header = viconMarkers->header;
 	marker.header.frame_id = "/world";
 
-	marker.scale = buildScaleAllEqual(0.02);
+	double scale;
+	paramServer.param("scale", scale, 0.02); //name, value, default
+	marker.scale = buildScaleAllEqual(scale);
+
 	marker.color = buildColorRGB(1.0, 0.0, 1.0);
 
 	for (auto currentViconMarker : viconMarkers->markers)

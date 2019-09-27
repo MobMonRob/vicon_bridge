@@ -28,6 +28,15 @@ void testVicon(ros::NodeHandle nodeHandle)
 
 	ViconProcessor viconProcessor(markerPublisher);
 
+
+///////////////////
+	ros::NodeHandle paramServer("~");
+	double scale;
+	paramServer.param("scale", scale, 1.0); //name, value, default
+	ROS_INFO("Scale: %f", scale);
+///////////////////
+
+
 	ros::AsyncSpinner aspin(1);
 	aspin.start();
 	ViconReceiver vr(viconProcessor);

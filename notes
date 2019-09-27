@@ -182,12 +182,20 @@ ViconPoseProcessor umbenennen
 ----------
 Aktuell:
 
+(11:50)
+Parameter aus launchfile holen
+    //param direkt ausprobieren
+    yaml Datei
+
+bei Starten von ros ausgeben lassen
+
+tf_frame_id auch vom Parameter Server holen
+Color
+
 
 ----------
 Tun:
 
-Scale, Color im Launchfile konfigurieren
-    Von vicon_bridge abschauen
 Mit fake Daten ausprobieren?
 Später auch Segment-Daten holen zum Plotten von Verbindungen. (Bieten Koordinatensystem pro Objekt) -> wie Koordinaten transformieren? rviz tf2??
 tf2 für eigentliche Transformation später
@@ -223,7 +231,7 @@ MarkerBuilder:
     https://github.com/stevenjj/openpose_ros/blob/master/skeleton_extract_3d/src/skeleton_extract_3d_visualization_node.cpp
     http://docs.ros.org/api/visualization_msgs/html/msg/Marker.html
 
-vicon_bridge (->vicon_receiver): holt Daten von vicon
+vicon_bridge (->umbennen in: vicon_receiver): holt Daten von vicon
 Builder Bridge Kleber: holt die Daten von der Bridge und gibt sie dem Builder
 
 

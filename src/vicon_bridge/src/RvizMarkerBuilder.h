@@ -1,6 +1,7 @@
 #ifndef RVIZ_MARKERBUILDER_H
 #define RVIZ_MARKERBUILDER_H
 
+#include "ros/node_handle.h"
 #include <visualization_msgs/Marker.h>
 #include "geometry_msgs/TransformStamped.h"
 #include "geometry_msgs/Quaternion.h"
@@ -48,6 +49,7 @@ public:
 	visualization_msgs::Marker getTestMarker() const;
 
 private:
+	ros::NodeHandle paramServer = ros::NodeHandle("~");
 	visualization_msgs::Marker buildStandardMarker() const;
 	std_msgs::Header buildHeader(ros::Time stamp, std::string frame_id) const;
 	geometry_msgs::Pose buildPose(geometry_msgs::Point position, geometry_msgs::Quaternion orientation) const;
