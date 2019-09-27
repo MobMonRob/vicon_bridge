@@ -182,7 +182,6 @@ ViconPoseProcessor umbenennen
 ----------
 Aktuell:
 
-(11:50)
 Parameter aus launchfile holen
     //param direkt ausprobieren
     yaml Datei
@@ -192,7 +191,7 @@ bei Starten von ros ausgeben lassen
 tf_frame_id auch vom Parameter Server holen
 Color
 
-
+//<param name="parameter" type="yaml" binfile="$(find vicon_bridge)/params/" />
 ----------
 Tun:
 
@@ -244,6 +243,9 @@ Type::SPHERE_LIST ist schneller als MarkerArray, aber weniger flexibel
 vicon misst mit 1mm
 rviz misst mit 1m
 ->nachgemessen: mit 20 cm Lineal und Umrechung im Programm
+
+double augeben
+ROS_INFO("Scale: %f", scale);
 
 
 ----------
