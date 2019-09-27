@@ -1,17 +1,17 @@
-#include "ViconPoseProcessor.h"
+#include "ViconProcessor.h"
 
 #include "visualization_msgs/MarkerArray.h"
 #include "ros/ros.h"
 
-ViconPoseProcessor::ViconPoseProcessor(const ros::Publisher &markerPublisher) : markerPublisher(markerPublisher), rvizMarkerBuilder() {}
+ViconProcessor::ViconProcessor(const ros::Publisher &markerPublisher) : markerPublisher(markerPublisher), rvizMarkerBuilder() {}
 
-void ViconPoseProcessor::pushMarkers(vicon_bridge::MarkersPtr viconMarkers) const
+void ViconProcessor::pushMarkers(vicon_bridge::MarkersPtr viconMarkers) const
 {
 	visualization_msgs::Marker rvizMarker = rvizMarkerBuilder.convertViconMarkersToRvizMarker(viconMarkers);
 	markerPublisher.publish(rvizMarker);
 }
 
-void ViconPoseProcessor::pushSegment(geometry_msgs::TransformStampedPtr pose_msg) const
+void ViconProcessor::pushSegment(geometry_msgs::TransformStampedPtr pose_msg) const
 {
 	//visualization_msgs::Marker rvizMarker = rvizMarkerBuilder.convertViconPoseToRvizMarker(pose_msg);
 	//markerPublisher.publish(rvizMarker);

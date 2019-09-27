@@ -3,7 +3,7 @@
 
 #include "RvizMarkerBuilder.h"
 #include "vicon_bridge.h"
-#include "ViconPoseProcessor.h"
+#include "ViconProcessor.h"
 #include "visualization_msgs/Marker.h"
 
 #include <sstream>
@@ -26,11 +26,11 @@ void testVicon(ros::NodeHandle nodeHandle)
 {
 	ros::Publisher markerPublisher = nodeHandle.advertise<visualization_msgs::Marker>("vicon_rviz_marker", 1000);
 
-	ViconPoseProcessor viconPoseProcessor(markerPublisher);
+	ViconProcessor viconProcessor(markerPublisher);
 
 	ros::AsyncSpinner aspin(1);
 	aspin.start();
-	ViconReceiver vr(viconPoseProcessor);
+	ViconReceiver vr(viconProcessor);
 	aspin.stop();
 }
 

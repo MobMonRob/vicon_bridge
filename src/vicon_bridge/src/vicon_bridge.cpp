@@ -133,11 +133,11 @@ string Adapt(const Result::Enum i_result)
 	}
 }
 
-ViconReceiver::ViconReceiver(std::optional<ViconPoseProcessor> poseProcessor) : poseProcessor(poseProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
-																				freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
-																				host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
-																				lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
-																				marker_data_enabled(false), unlabeled_marker_data_enabled(false), grab_frames_(false)
+ViconReceiver::ViconReceiver(std::optional<ViconProcessor> viconProcessor) : viconProcessor(viconProcessor), nh_priv("~"), diag_updater(), min_freq_(0.1), max_freq_(1000),
+																			 freq_status_(diagnostic_updater::FrequencyStatusParam(&min_freq_, &max_freq_)), stream_mode_("ClientPull"),
+																			 host_name_(""), tf_ref_frame_id_("world"), tracked_frame_suffix_("vicon"),
+																			 lastFrameNumber(0), frameCount(0), droppedFrameCount(0), frame_datum(0), n_markers(0), n_unlabeled_markers(0),
+																			 marker_data_enabled(false), unlabeled_marker_data_enabled(false), grab_frames_(false)
 
 {
 	// Diagnostics
@@ -387,13 +387,13 @@ bool ViconReceiver::process_frame()
 			process_subjects(now_time - vicon_latency);
 		}
 
-		if ((publish_markers_ && (marker_pub_.getNumSubscribers() > 0)) || (poseProcessor.has_value()))
+		if ((publish_markers_ && (marker_pub_.getNumSubscribers() > 0)) || (viconProcessor.has_value()))
 		{
 			vicon_bridge::MarkersPtr markers_msg = process_markers(now_time - vicon_latency, lastFrameNumber);
 
-			if (poseProcessor.has_value())
+			if (viconProcessor.has_value())
 			{
-				poseProcessor->pushMarkers(markers_msg);
+				viconProcessor->pushMarkers(markers_msg);
 			}
 
 			if (publish_markers_ && (marker_pub_.getNumSubscribers() > 0))
@@ -459,13 +459,13 @@ void ViconReceiver::process_subjects(const ros::Time &frame_time)
 								//                  transform = tf::StampedTransform(flyer_transform, frame_time, tf_ref_frame_id_, tracked_frame);
 								//                  tf_broadcaster_.sendTransform(transform);
 
-								if (publish_tf_ || poseProcessor.has_value())
+								if (publish_tf_ || viconProcessor.has_value())
 								{
 									tf::transformStampedTFToMsg(transforms.back(), *pose_msg);
 
-									if (poseProcessor.has_value())
+									if (viconProcessor.has_value())
 									{
-										poseProcessor->pushSegment(pose_msg);
+										viconProcessor->pushSegment(pose_msg);
 									}
 
 									seg.pub.publish(pose_msg);

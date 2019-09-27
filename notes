@@ -176,6 +176,7 @@ Mapping zwischen vicon Koordinaten und rviz Koordinaten.
     vicon: wahrscheinlich mm. Definitiv angepasst auf die Kalibrierung.
     rviz: m
 currentTranslation.x / 1000 -->1000 soll Namen bekommen in static const, damit man versteht, warum das so ist
+ViconPoseProcessor umbenennen
 
 
 ----------
@@ -185,12 +186,11 @@ Aktuell:
 ----------
 Tun:
 
-ViconPoseProcessor umbenennen
+Scale, Color im Launchfile konfigurieren
+    Von vicon_bridge abschauen
 Mit fake Daten ausprobieren?
 Später auch Segment-Daten holen zum Plotten von Verbindungen. (Bieten Koordinatensystem pro Objekt) -> wie Koordinaten transformieren? rviz tf2??
 tf2 für eigentliche Transformation später
-Scale, Color im Launchfile konfigurieren
-    Von vicon_bridge abschauen
 
 
 ----------
