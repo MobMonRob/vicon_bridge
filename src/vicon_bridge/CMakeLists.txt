@@ -32,11 +32,11 @@ generate_dynamic_reconfigure_options(
   cfg/tf_distort.cfg
 )
 
-catkin_package(CATKIN_DEPENDS 
+catkin_package(CATKIN_DEPENDS
     dynamic_reconfigure
     geometry_msgs
-    message_runtime 
-    roscpp 
+    message_runtime
+    roscpp
 )
 
 # check for platform and use the right Vicon SDK
@@ -57,30 +57,33 @@ include_directories(src ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${VICON_SDK
 
 add_library(msvc_bridge src/msvc_bridge.cpp)
 
-add_executable(calibrate src/calibrate_segment.cpp)
-target_link_libraries(calibrate
-   ${catkin_LIBRARIES}
-)
-add_dependencies(calibrate ${PROJECT_NAME}_gencpp)
+#add_executable(calibrate src/calibrate_segment.cpp)
+#target_link_libraries(calibrate
+#   ${catkin_LIBRARIES}
+#)
+#add_dependencies(calibrate ${PROJECT_NAME}_gencpp)
 
-add_executable(tf_distort src/tf_distort.cpp)
-target_link_libraries(tf_distort
-   ${catkin_LIBRARIES}
-   ${Boost_LIBRARIES}
-)
-add_dependencies(tf_distort ${PROJECT_NAME}_gencpp ${PROJECT_NAME}_gencfg)
+#add_executable(tf_distort src/tf_distort.cpp)
+#target_link_libraries(tf_distort
+#   ${catkin_LIBRARIES}
+#   ${Boost_LIBRARIES}
+#)
+#add_dependencies(tf_distort ${PROJECT_NAME}_gencpp ${PROJECT_NAME}_gencfg)
 
-add_executable(testclient src/ViconDataStreamSDK_CPPTest.cpp)
-target_link_libraries(testclient 
-    ${VICON_SDK_LIBRARY}
-    ${Boost_LIBRARIES}
-)
+#add_executable(testclient src/ViconDataStreamSDK_CPPTest.cpp)
+#target_link_libraries(testclient
+#    ${VICON_SDK_LIBRARY}
+#    ${Boost_LIBRARIES}
+#)
 
 add_library(srcFiles STATIC
 	src/ViconProcessor.cpp
 	src/vicon_bridge.cpp
 	src/RvizMarkerBuilder.cpp
 )
+add_dependencies(srcFiles ${PROJECT_NAME}_gencpp)
+#add_dependencies(srcFiles ${catkin_EXPORTED_TARGETS})
+
 
 add_executable(vicon_bridgeNodeMain
 	src/vicon_bridgeNodeMain.cpp
@@ -93,6 +96,7 @@ target_link_libraries(vicon_bridgeNodeMain
 )
 add_dependencies(vicon_bridgeNodeMain ${PROJECT_NAME}_gencpp)
 
+
 add_executable(ViconRvizNodeMain
 	src/ViconRvizNodeMain.cpp
 )
@@ -103,6 +107,7 @@ target_link_libraries(ViconRvizNodeMain
     ${catkin_LIBRARIES}
 )
 add_dependencies(ViconRvizNodeMain ${PROJECT_NAME}_gencpp)
+
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -Werror=return-type -fdiagnostics-show-option")
