@@ -35,7 +35,7 @@
 
 #include "vicon_bridge.h"
 
-#include <Client.h>
+#include <DataStreamClient.h>
 #include <ros/ros.h>
 #include <diagnostic_updater/diagnostic_updater.h>
 #include <diagnostic_updater/update_functions.h>
