@@ -1,0 +1,4 @@
+[submodule "ViconDataStreamNative"]
+	path = ViconDataStreamNative
+	url = git@github.com:MobMonRob/ViconDataStreamNative.git
+	branch = main
