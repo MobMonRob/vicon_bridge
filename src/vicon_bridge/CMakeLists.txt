@@ -39,23 +39,20 @@ catkin_package(CATKIN_DEPENDS
     roscpp
 )
 
-# check for platform and use the right Vicon SDK
-if(CMAKE_SIZEOF_VOID_P MATCHES "8")
-    set(VICON_SDK             Vicon_DataStreamSDK_1.10_Linux_x64)
-    set(VICON_SDK_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/${VICON_SDK})
-    set(VICON_SDK_LINK_DIR    ${PROJECT_SOURCE_DIR}/${VICON_SDK})
-#elseif(CMAKE_SIZEOF_VOID_P MATCHES "4")
-#    set(VICON_SDK             vicon_sdk/Vicon_SDK_1.3_Linux/32-bit/)
-#    set(VICON_SDK_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/${VICON_SDK})
-#    set(VICON_SDK_LINK_DIR    ${PROJECT_SOURCE_DIR}/${VICON_SDK})
-else(CMAKE_SIZEOF_VOID_P MATCHES "8")
-    message(FATAL_ERROR "unable to detect platform")
-endif (CMAKE_SIZEOF_VOID_P MATCHES "8")
-find_library(VICON_SDK_LIBRARY ViconDataStreamSDK_CPP PATHS ${VICON_SDK_LINK_DIR})
+set(VICON_SDK ${CMAKE_SOURCE_DIR}/../ViconDataStreamNative/target/Linux64)
 
-include_directories(src ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${VICON_SDK_INCLUDE_DIR})
+include_directories(src ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${VICON_SDK})
 
-add_library(msvc_bridge src/msvc_bridge.cpp)
+add_custom_command(
+	OUTPUT DataStreamClient.h
+	PRE_BUILD
+	COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/../ViconDataStreamNative/ensure_dependency-recursive_Linux64.sh
+)
+
+add_library(msvc_bridge
+	src/msvc_bridge.cpp
+	DataStreamClient.h
+)
 
 #add_executable(calibrate src/calibrate_segment.cpp)
 #target_link_libraries(calibrate
@@ -80,6 +77,7 @@ add_library(srcFiles STATIC
 	src/ViconProcessor.cpp
 	src/vicon_bridge.cpp
 	src/RvizMarkerBuilder.cpp
+	DataStreamClient.h
 )
 add_dependencies(srcFiles ${PROJECT_NAME}_gencpp)
 #add_dependencies(srcFiles ${catkin_EXPORTED_TARGETS})
@@ -91,7 +89,7 @@ add_executable(vicon_bridgeNodeMain
 target_link_libraries(vicon_bridgeNodeMain
 	srcFiles
     msvc_bridge
-    ${VICON_SDK_LIBRARY}
+    ${VICON_SDK}/libViconDataStreamSDK_CPP.so
     ${catkin_LIBRARIES}
 )
 add_dependencies(vicon_bridgeNodeMain ${PROJECT_NAME}_gencpp)
@@ -103,11 +101,10 @@ add_executable(ViconRvizNodeMain
 target_link_libraries(ViconRvizNodeMain
 	srcFiles
 	msvc_bridge
-    ${VICON_SDK_LIBRARY}
+    ${VICON_SDK}/libViconDataStreamSDK_CPP.so
     ${catkin_LIBRARIES}
 )
 add_dependencies(ViconRvizNodeMain ${PROJECT_NAME}_gencpp)
-
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -Werror=return-type -fdiagnostics-show-option")
